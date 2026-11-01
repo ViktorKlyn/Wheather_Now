@@ -1,0 +1,33 @@
+:root {
+  font-family: Outfit, sans-serif;
+  color: #f4f7ff;
+  background: #07111f;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 700px at 20% -10%, #2a4a7a 0%, transparent 55%),
+    #07111f;
+}
+
+button {
+  font: inherit;
+}
+
+ul {
+  list-style: none;
+}
