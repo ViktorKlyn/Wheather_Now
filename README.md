@@ -1,139 +1,182 @@
 # Weather Now — Aplicativo de Apoio Camuflado
 
-> **Protótipo acadêmico** · Projeto Integrador · 2º Semestre de 2026  
-> Tema: Violência contra a Mulher — Aplicativo de Apoio Camuflado
+> Projeto Integrador · 2º Semestre de 2026  
+> Tema: violência contra a mulher em contexto de apoio e proteção.
 
-Por fora, um simples aplicativo de previsão do tempo.  
-Por dentro, uma ferramenta segura e discreta para registrar ocorrências de violência doméstica e acessar contatos de emergência.
+O Weather Now aparenta ser um aplicativo de previsão do tempo, mas oferece uma área reservada para registrar ocorrências, manter contatos de confiança e simular alertas SOS em ambiente acadêmico.
 
 ---
 
-## Estrutura do Repositório
+## Objetivo
 
-```
+- manter a aparência de um app comum de clima;
+- permitir acesso discreto por PIN demonstrativo;
+- registrar ocorrências e rede de apoio;
+- simular alertas para fins de estudo e demonstração;
+- preservar a arquitetura de backend e mobile existentes.
+
+---
+
+## Estrutura do repositório
+
+```text
 /
-├── moblie/          # Aplicativo Expo (React Native) — tela de clima + área reservada
+├── backend/                   # API Express + PostgreSQL
+│   ├── database/
+│   │   └── schema.sql         # tabelas de usuários, ocorrências, contatos e alertas
 │   ├── src/
-│   │   ├── navigation/  # Stack + Tab + Drawer (react-navigation)
-│   │   ├── screens/     # ClimaTela, PinTela, OcorrenciasTela, FormularioTela, SOSTela, SobreTela
-│   │   ├── store/       # Redux Toolkit (ocorrenciasSlice, authSlice)
-│   │   └── api.js       # Chamadas à API Express
-│   └── App.js           # Provider Redux + GestureHandlerRootView + AppNavigator
-├── backend/         # API Express + PostgreSQL
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── db.js
+│   │   ├── index.js
+│   │   └── routes/index.js
+│   ├── .env.example
+│   ├── package.json
+│   └── package-lock.json
+├── dashboard/                 # painel web de monitoramento dos alertas
+│   ├── index.html
+│   └── app.js
+├── moblie/                    # app Expo (React Native)
 │   ├── src/
-│   │   ├── controllers/ # ocorrenciasController.js
-│   │   ├── routes/      # index.js + ocorrencias.js
-│   │   ├── db.js        # Pool de conexão PostgreSQL
-│   │   └── index.js     # Ponto de entrada — porta 3001
-│   └── database/
-│       └── schema.sql   # DDL das tabelas
-├── data-science/    # Análise exploratória — Painel Ligue 180
-│   ├── dados/           # base bruta + base tratada (geradas pelo notebook)
-│   ├── notebook.ipynb   # Pipeline completo de DS
-│   └── README.md
+│   ├── .env.example
+│   ├── App.js
+│   ├── app.json
+│   └── package.json
+├── src/                       # frontend web de clima (Vite)
+├── data-science/
 ├── docs/
-│   └── Entrega-2.md     # Instruções de execução do projeto
-├── README.md        # Este arquivo
-└── USO_IA.md        # Registro de uso de ferramentas de IA
+├── README.md
+├── USO_IA.md
+├── CHECKLIST_ENTREGA.md
+└── package.json
 ```
 
 ---
 
-## Disfarce do Aplicativo
+## Tecnologias
 
-**Disfarce escolhido:** Aplicativo de Previsão do Tempo — *Weather Now*
-
-**Justificativa:** Aplicativos de clima são extremamente comuns, não levantam suspeitas e são consultados diariamente por qualquer pessoa. O mecanismo de acesso oculto (5 toques na cidade + PIN de 4 dígitos) é invisível para quem não conhece o app, garantindo a segurança da usuária em situações de controle pelo agressor.
-
----
-
-## Navegação (Stack / Tab / Drawer)
-
-```
-RootStack (Stack — react-navigation/native-stack)
-├── ClimaTela          ← tela pública de disfarce
-├── PinTela (modal)    ← Stack: modal deslizante de baixo para cima
-└── DrawerReservada (Drawer)
-    ├── TabReservada (Tab — Bottom Tabs)
-    │   ├── OcorrenciasStack (Stack interno)
-    │   │   ├── OcorrenciasTela   ← lista com FlatList + pull-to-refresh
-    │   │   └── FormularioTela    ← criar / editar ocorrência
-    │   └── SOSTela               ← contatos de emergência com discagem
-    └── SobreTela                 ← informações + botão de logout
-```
+- React / Vite (disfarce público do clima)
+- Expo + React Native
+- React Navigation (Stack / Tab / Drawer)
+- Redux Toolkit
+- Node.js + Express
+- PostgreSQL
+- Fetch REST
 
 ---
 
-## Como Rodar
-
-### Pré-requisitos
+## Pré-requisitos
 
 - Node.js 18+
-- PostgreSQL 14+ (para o backend)
-- Expo CLI (`npm install -g expo-cli`)
+- NPM
+- Expo CLI para execução do app mobile
+- PostgreSQL 14+ apenas se optar por usar um banco externo
 
-### Backend (API)
+## Aplicação web (Vite)
+
+O frontend web fica na raiz do repositório. Para iniciá-lo:
+
+```powershell
+npm install
+npm run dev
+```
+
+O Vite informará o endereço local da aplicação. Backend e mobile são projetos
+separados e devem ser iniciados em suas respectivas pastas.
+
+---
+
+## Configuração do backend
 
 ```powershell
 cd backend
-copy .env.example .env   # ajuste DATABASE_URL
 npm install
-# Criar banco: psql -U postgres -c "CREATE DATABASE weather_now;"
-# Criar tabelas:
-psql -U postgres -d weather_now -f database/schema.sql
-npm run dev              # API em http://localhost:3001
+npm run dev
 ```
 
-### Aplicativo Mobile
+A API fica em `http://localhost:3001`. Por padrão, usa PGlite e cria as tabelas
+automaticamente; no Windows, os dados locais são persistidos em
+`%LOCALAPPDATA%\Weather Now\weather_now_v2`.
+Dados de instalações anteriores em `%LOCALAPPDATA%\Weather Now\weather_now`
+permanecem preservados e não são migrados automaticamente.
+Para usar PostgreSQL externo, copie `.env.example` para `.env`, configure
+`DATABASE_URL` ou `DB_HOST` e crie o banco antes de iniciar a API.
+
+### Endpoints principais
+
+- `GET /ocorrencias`
+- `GET /ocorrencias/:id`
+- `POST /ocorrencias`
+- `PUT /ocorrencias/:id`
+- `DELETE /ocorrencias/:id`
+- `GET /contatos-apoio?usuario_id=1`
+- `POST /contatos-apoio`
+- `PUT /contatos-apoio/:id`
+- `DELETE /contatos-apoio/:id`
+- `GET /alertas`
+- `POST /alertas`
+- `PATCH /alertas/:id/status`
+
+---
+
+## Configuração do mobile
+
+Mantenha o backend iniciado em outro terminal antes de usar os formulários do app.
+No navegador do mesmo computador, a URL padrão da API é `http://localhost:3001`.
 
 ```powershell
 cd moblie
-copy .env.example .env   # ajuste EXPO_PUBLIC_API_URL
+copy .env.example .env
 npm install
-npm start                # Expo DevTools — escanear QR ou pressionar W para web
+npm run web
 ```
 
-> **Emulador Android:** use `EXPO_PUBLIC_API_URL=http://10.0.2.2:3001`  
-> **Dispositivo físico:** use o IP local do computador
+Para Android emulador: use `http://10.0.2.2:3001`.
+Para dispositivo físico, configure `EXPO_PUBLIC_API_URL` com o IP local do computador.
 
-### Data Science
+---
+
+## Dashboard web
 
 ```powershell
-pip install pandas numpy matplotlib seaborn jupyter
-cd data-science
-jupyter notebook notebook.ipynb
+cd dashboard
+python -m http.server 8000
 ```
+
+Em seguida, abra `http://localhost:8000`.
+
+O painel consulta a API em `http://localhost:3001/alertas` e atualiza automaticamente.
 
 ---
 
-## Banco de Dados (DER resumido)
+## Fluxo de demonstração
 
-```
-┌──────────────────────────────────────┐
-│            ocorrencias               │
-├──────────────────────────────────────┤
-│  id          SERIAL       PK         │
-│  data        DATE         NOT NULL   │
-│  descricao   TEXT         NOT NULL   │
-│  usuario_id  INTEGER      FK → (*)   │
-└──────────────────────────────────────┘
-
-(*) Tabela de usuários será adicionada na Entrega 3.
-```
+1. Abra o app e toque 5 vezes em “Londrina”.
+2. Digite o PIN `1234`.
+3. Use a área reservada para:
+   - cadastrar ocorrências;
+   - manter contatos de apoio;
+   - enviar SOS demonstrativo;
+   - consultar alertas no dashboard.
 
 ---
 
-## Base de Dados Pública (Data Science)
+## Limitações do protótipo
 
-**Painel Ligue 180 — Central de Atendimento à Mulher**  
-Fonte: Ministério das Mulheres / SPM  
-Link: <https://www.gov.br/mulheres/pt-br/assuntos/ouvidoria-da-mulher/ligue-180>  
-Licença: Dados abertos do Governo Federal (LAI 12.527/2011)
+- é um protótipo acadêmico;
+- não deve ser tratado como serviço real de emergência;
+- não envia alertas para autoridades reais;
+- os dados são demonstração e devem permanecer fictícios.
 
 ---
 
-## Avisos
+## Funcionalidades implementadas
 
-- Este é um **protótipo acadêmico**. Não usar em produção sem auditoria de segurança.
-- Nenhum dado pessoal real de vítimas está armazenado no repositório.
-- O PIN padrão (`1234`) deve ser alterado antes de qualquer uso real.
+- CRUD de ocorrências
+- CRUD de rede de apoio
+- registro de alertas SOS
+- dashboard de monitoramento
+- saída rápida da área reservada
+- navegação protegida por PIN
+- documentação de uso e checklist

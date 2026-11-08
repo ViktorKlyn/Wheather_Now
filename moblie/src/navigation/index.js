@@ -21,6 +21,8 @@ import ClimaTela from "../screens/ClimaTela";
 import PinTela from "../screens/PinTela";
 import OcorrenciasTela from "../screens/reservada/OcorrenciasTela";
 import FormularioTela from "../screens/reservada/FormularioTela";
+import ContatosTela from "../screens/reservada/ContatosTela";
+import FormularioContatoTela from "../screens/reservada/FormularioContatoTela";
 import SOSTela from "../screens/reservada/SOSTela";
 import SobreTela from "../screens/reservada/SobreTela";
 
@@ -64,6 +66,27 @@ function OcorrenciasStack() {
   );
 }
 
+function ContatosStack() {
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        name="ListaContatos"
+        component={ContatosTela}
+        options={{ title: "Rede de Apoio" }}
+      />
+      <Stack.Screen
+        name="FormularioContato"
+        component={FormularioContatoTela}
+        options={({ route }) =>
+          route.params?.contato
+            ? { title: "Editar Contato" }
+            : { title: "Novo Contato" }
+        }
+      />
+    </Stack.Navigator>
+  );
+}
+
 // ── Tab Navigator da área reservada ────────────────────────────────────────
 function TabReservada() {
   return (
@@ -82,6 +105,14 @@ function TabReservada() {
         options={{
           tabBarLabel: "Registros",
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>📋</Text>,
+        }}
+      />
+      <Tab.Screen
+        name="ContatosTab"
+        component={ContatosStack}
+        options={{
+          tabBarLabel: "Rede",
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🤝</Text>,
         }}
       />
       <Tab.Screen
@@ -116,6 +147,14 @@ function DrawerReservada() {
           title: "Área Reservada",
           drawerLabel: "📋  Registros & SOS",
           headerTitle: "Área Reservada",
+        }}
+      />
+      <Drawer.Screen
+        name="ContatosDrawer"
+        component={ContatosStack}
+        options={{
+          drawerLabel: "🤝 Rede de Apoio",
+          title: "Rede de Apoio",
         }}
       />
       <Drawer.Screen

@@ -60,6 +60,8 @@ export function formatClock(date) {
 }
 
 async function reverseGeocode(latitude, longitude) {
+  if (typeof fetch !== "function") return null;
+
   const url = `${GEO_URL}?latitude=${latitude}&longitude=${longitude}&language=pt&format=json`;
   const res = await fetch(url);
   if (!res.ok) return null;
@@ -72,7 +74,9 @@ async function reverseGeocode(latitude, longitude) {
 }
 
 export async function getPosition() {
-  if (!navigator.geolocation) return DEFAULT_LOCATION;
+  if (typeof navigator === "undefined" || !navigator.geolocation) {
+    return DEFAULT_LOCATION;
+  }
 
   try {
     const coords = await new Promise((resolve, reject) => {
@@ -96,6 +100,10 @@ export async function getPosition() {
 }
 
 export async function fetchForecast({ latitude, longitude }) {
+  if (typeof fetch !== "function") {
+    throw new Error("Não foi possível carregar o clima.");
+  }
+
   const params = new URLSearchParams({
     latitude: String(latitude),
     longitude: String(longitude),
@@ -114,42 +122,48 @@ export async function fetchForecast({ latitude, longitude }) {
 }
 
 export function mapForecast(data) {
-  const current = data.current;
-  const now = new Date(current.time);
-  const hourly = data.hourly.time
+  const current = data?.current ?? {};
+  const hourlySeries = Array.isArray(data?.hourly?.time) ? data.hourly.time : [];
+  const dailySeries = Array.isArray(data?.daily?.time) ? data.daily.time : [];
+  const now = current.time ? new Date(current.time) : new Date();
+
+  const hourly = hourlySeries
     .map((time, index) => ({
       time,
-      temperature: Math.round(data.hourly.temperature_2m[index]),
-      code: data.hourly.weather_code[index],
-      rainChance: data.hourly.precipitation_probability[index],
+      temperature: Math.round(Number(data?.hourly?.temperature_2m?.[index] ?? 0)),
+      code: data?.hourly?.weather_code?.[index],
+      rainChance: data?.hourly?.precipitation_probability?.[index] ?? 0,
     }))
-    .filter((item) => new Date(item.time).getTime() + 60 * 60 * 1000 > now.getTime())
+    .filter(
+      (item) =>
+        item.time && new Date(item.time).getTime() + 60 * 60 * 1000 > now.getTime()
+    )
     .slice(0, 12);
 
   if (hourly[0]) {
     hourly[0] = {
       ...hourly[0],
-      temperature: Math.round(current.temperature_2m),
-      code: current.weather_code,
+      temperature: Math.round(Number(current.temperature_2m ?? hourly[0].temperature)),
+      code: current.weather_code ?? hourly[0].code,
     };
   }
 
-  const daily = data.daily.time.map((date, index) => ({
+  const daily = dailySeries.map((date, index) => ({
     date,
-    code: data.daily.weather_code[index],
-    max: Math.round(data.daily.temperature_2m_max[index]),
-    min: Math.round(data.daily.temperature_2m_min[index]),
-    rainChance: data.daily.precipitation_probability_max[index],
+    code: data?.daily?.weather_code?.[index],
+    max: Math.round(Number(data?.daily?.temperature_2m_max?.[index] ?? 0)),
+    min: Math.round(Number(data?.daily?.temperature_2m_min?.[index] ?? 0)),
+    rainChance: data?.daily?.precipitation_probability_max?.[index] ?? 0,
   }));
 
   return {
     current: {
-      temperature: Math.round(current.temperature_2m),
-      feelsLike: Math.round(current.apparent_temperature),
-      humidity: current.relative_humidity_2m,
-      wind: Math.round(current.wind_speed_10m),
-      uv: Math.round(current.uv_index ?? 0),
-      precipitation: current.precipitation,
+      temperature: Math.round(Number(current.temperature_2m ?? 0)),
+      feelsLike: Math.round(Number(current.apparent_temperature ?? current.temperature_2m ?? 0)),
+      humidity: Number(current.relative_humidity_2m ?? 0),
+      wind: Math.round(Number(current.wind_speed_10m ?? 0)),
+      uv: Math.round(Number(current.uv_index ?? 0)),
+      precipitation: Number(current.precipitation ?? 0),
       isDay: Boolean(current.is_day),
       code: current.weather_code,
     },

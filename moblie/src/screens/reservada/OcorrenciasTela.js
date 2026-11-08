@@ -5,6 +5,7 @@ import {
   Alert,
   FlatList,
   Pressable,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -24,12 +25,21 @@ export default function OcorrenciasTela() {
   }, [dispatch]);
 
   function confirmarExclusao(id) {
+    const excluir = () => dispatch(removeOcorrencia(id));
+
+    if (Platform.OS === "web") {
+      if (globalThis.confirm("Deseja remover esta ocorrência permanentemente?")) {
+        excluir();
+      }
+      return;
+    }
+
     Alert.alert("Excluir ocorrência", "Deseja remover este registro permanentemente?", [
       { text: "Cancelar", style: "cancel" },
       {
         text: "Excluir",
         style: "destructive",
-        onPress: () => dispatch(removeOcorrencia(id)),
+        onPress: excluir,
       },
     ]);
   }

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Now - Dashboard de Alertas</title>
+    <style>
+      :root {
+        --bg: #07111f;
+        --panel: #111e31;
+        --line: #1d2d44;
+        --text: #f4f7ff;
+        --muted: #8ca0bd;
+        --accent: #79e3d1;
+        --danger: #e56565;
+        --warning: #f4c95d;
+        --success: #7ad6a0;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, sans-serif;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 20px 60px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+      }
+      .subtitle {
+        margin: 6px 0 0;
+        color: var(--muted);
+      }
+      .toolbar {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      button {
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .primary {
+        background: var(--accent);
+        color: #071a25;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .stat {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .stat-label {
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+      }
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+      .list {
+        display: grid;
+        gap: 14px;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .card.new {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px rgba(121, 227, 209, 0.2);
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .id {
+        font-size: 0.82rem;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .status {
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .status.pendente { background: rgba(244, 201, 93, 0.13); color: var(--warning); }
+      .status.atendido { background: rgba(122, 214, 160, 0.13); color: var(--success); }
+      .status.ignorado { background: rgba(229, 101, 101, 0.12); color: var(--danger); }
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+        color: var(--muted);
+      }
+      .meta strong { color: var(--text); }
+      .empty {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 28px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .error {
+        background: rgba(229, 101, 101, 0.11);
+        border: 1px solid rgba(229, 101, 101, 0.4);
+        color: #ffd7d7;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+      }
+      @media (max-width: 700px) {
+        .header { flex-direction: column; align-items: flex-start; }
+        .title { font-size: 1.5rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="header">
+        <div>
+          <h1 class="title">Dashboard de Alertas</h1>
+          <p class="subtitle">Monitoramento demonstrativo de alertas SOS</p>
+        </div>
+        <div class="toolbar">
+          <button class="primary" id="refresh">Atualizar</button>
+        </div>
+      </header>
+
+      <div id="error"></div>
+
+      <section class="stats">
+        <div class="stat">
+          <div class="stat-label">Pendentes</div>
+          <div class="stat-value" id="pendentes">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Total</div>
+          <div class="stat-value" id="total">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Último registro</div>
+          <div class="stat-value" id="ultimo">—</div>
+        </div>
+      </section>
+
+      <section id="alerts" class="list"></section>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

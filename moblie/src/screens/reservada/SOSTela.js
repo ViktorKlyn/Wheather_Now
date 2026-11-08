@@ -1,5 +1,7 @@
 // screens/reservada/SOSTela.js — tela SOS (Tab 2)
+import { useState } from "react";
 import {
+  Alert,
   Linking,
   Pressable,
   SafeAreaView,
@@ -7,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { criarAlerta } from "../../api";
 
 const CONTATOS_EMERGENCIA = [
   { nome: "Ligue 180", numero: "180", descricao: "Central de Atendimento à Mulher" },
@@ -16,9 +19,79 @@ const CONTATOS_EMERGENCIA = [
   { nome: "Disque 100", numero: "100", descricao: "Direitos Humanos" },
 ];
 
+const DEMO_USER_ID = 1;
+
 export default function SOSTela() {
+  const [enviando, setEnviando] = useState(false);
+
   function ligar(numero) {
     Linking.openURL(`tel:${numero}`);
+  }
+
+  async function dispararSOS() {
+    if (enviando) return;
+
+    const confirmar = await new Promise((resolve) => {
+      Alert.alert(
+        "Confirmar alerta demonstrativo",
+        "Este alerta será registrado no protótipo para simulação acadêmica. Não será enviado para autoridades reais.",
+        [
+          { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+          { text: "Enviar alerta", onPress: () => resolve(true) },
+        ]
+      );
+    });
+
+    if (!confirmar) return;
+
+    setEnviando(true);
+
+    let latitude = -23.5505;
+    let longitude = -46.6333;
+    let simulada = true;
+
+    try {
+      const geolocation = globalThis.navigator?.geolocation;
+      if (geolocation) {
+        const pos = await new Promise((resolve, reject) => {
+          geolocation.getCurrentPosition(resolve, reject, {
+            timeout: 5000,
+            enableHighAccuracy: true,
+          });
+        });
+
+        latitude = pos.coords.latitude;
+        longitude = pos.coords.longitude;
+        simulada = false;
+      }
+    } catch {
+      latitude = -23.5505;
+      longitude = -46.6333;
+      simulada = true;
+    }
+
+    try {
+      await criarAlerta({
+        usuario_id: DEMO_USER_ID,
+        latitude,
+        longitude,
+        data_hora: new Date().toISOString(),
+        status: "PENDENTE",
+        tipo_alerta: "SOS",
+        localizacao_simulada: simulada,
+      });
+
+      Alert.alert(
+        "Alerta registrado",
+        simulada
+          ? "Alerta demonstrativo enviado com coordenadas fictícias."
+          : "Alerta demonstrativo enviado com sua localização atual."
+      );
+    } catch (err) {
+      Alert.alert("Erro ao registrar alerta", err.message || "Não foi possível enviar o alerta.");
+    } finally {
+      setEnviando(false);
+    }
   }
 
   return (
@@ -31,6 +104,17 @@ export default function SOSTela() {
           Você não está sozinha.
         </Text>
       </View>
+
+      <Pressable
+        accessibilityRole="button"
+        disabled={enviando}
+        onPress={dispararSOS}
+        style={[styles.sosButton, enviando && styles.sosButtonDisabled]}
+      >
+        <Text style={styles.sosButtonText}>
+          {enviando ? "Registrando alerta..." : "Enviar SOS demonstrativo"}
+        </Text>
+      </Pressable>
 
       <View style={styles.lista}>
         {CONTATOS_EMERGENCIA.map((contato) => (
@@ -89,6 +173,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     textAlign: "center",
+  },
+  sosButton: {
+    backgroundColor: "#e56565",
+    borderRadius: 14,
+    paddingVertical: 14,
+    alignItems: "center",
+    marginBottom: 18,
+  },
+  sosButtonDisabled: {
+    opacity: 0.7,
+  },
+  sosButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "700",
   },
   lista: {
     gap: 10,

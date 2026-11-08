@@ -1,6 +1,8 @@
 // Junta as rotas da API em um único arquivo
 const express = require("express");
 const ocorrenciasRoutes = require("./ocorrencias");
+const contatosApoioRoutes = require("./contatosApoio");
+const alertasRoutes = require("./alertas");
 
 const router = express.Router();
 
@@ -9,7 +11,9 @@ router.get("/", (req, res) => {
   res.send("API Weather Now funcionando");
 });
 
-// Todas as rotas de ocorrências ficam em /ocorrencias
+// Todas as rotas do projeto ficam em namespaces específicos
 router.use("/ocorrencias", ocorrenciasRoutes);
+router.use("/contatos-apoio", contatosApoioRoutes);
+router.use("/alertas", alertasRoutes);
 
 module.exports = router;

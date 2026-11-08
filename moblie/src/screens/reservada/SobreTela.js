@@ -10,8 +10,10 @@ export default function SobreTela() {
 
   function sairDaArea() {
     dispatch(sair());
-    // Volta para a raiz da navegação Stack (tela de clima)
-    navigation.navigate("DisfarceStack");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "DisfarceStack" }],
+    });
   }
 
   return (
