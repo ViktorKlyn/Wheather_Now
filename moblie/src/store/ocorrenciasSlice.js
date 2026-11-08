@@ -6,6 +6,7 @@ import {
   atualizarOcorrencia,
   excluirOcorrencia,
 } from "../api";
+import { sair } from "./authSlice";
 
 // ── Thunks assíncronos ──────────────────────────────────────────────────────
 
@@ -69,6 +70,12 @@ const ocorrenciasSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(sair, () => ({
+      lista: [],
+      carregando: false,
+      erro: null,
+    }));
+
     // fetchAll
     builder
       .addCase(fetchOcorrencias.pending, (state) => {

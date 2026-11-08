@@ -3,180 +3,117 @@
 > Projeto Integrador · 2º Semestre de 2026  
 > Tema: violência contra a mulher em contexto de apoio e proteção.
 
-O Weather Now aparenta ser um aplicativo de previsão do tempo, mas oferece uma área reservada para registrar ocorrências, manter contatos de confiança e simular alertas SOS em ambiente acadêmico.
+O Weather Now aparenta ser um aplicativo de previsão do tempo e possui uma área
+reservada para registrar ocorrências, manter contatos de confiança e simular
+alertas SOS em ambiente acadêmico.
 
----
+## Estrutura
 
-## Objetivo
+- `backend/`: API Express, esquema PostgreSQL e conexão de banco.
+- `dashboard/`: painel web de monitoramento dos alertas.
+- `moblie/`: app Expo/React Native (o diretório se chama `moblie` no repositório).
+- `src/`: frontend Vite do aplicativo de clima.
+- `data-science/` e `docs/`: materiais da entrega acadêmica.
 
-- manter a aparência de um app comum de clima;
-- permitir acesso discreto por PIN demonstrativo;
-- registrar ocorrências e rede de apoio;
-- simular alertas para fins de estudo e demonstração;
-- preservar a arquitetura de backend e mobile existentes.
+## Requisitos
 
----
+- Node.js 18+ e NPM.
+- PostgreSQL 14+ — requisito da Entrega 2.
+- Expo é executado pelos scripts locais do projeto mobile.
 
-## Estrutura do repositório
+## Backend e banco de dados
 
-```text
-/
-├── backend/                   # API Express + PostgreSQL
-│   ├── database/
-│   │   └── schema.sql         # tabelas de usuários, ocorrências, contatos e alertas
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── db.js
-│   │   ├── index.js
-│   │   └── routes/index.js
-│   ├── .env.example
-│   ├── package.json
-│   └── package-lock.json
-├── dashboard/                 # painel web de monitoramento dos alertas
-│   ├── index.html
-│   └── app.js
-├── moblie/                    # app Expo (React Native)
-│   ├── src/
-│   ├── .env.example
-│   ├── App.js
-│   ├── app.json
-│   └── package.json
-├── src/                       # frontend web de clima (Vite)
-├── data-science/
-├── docs/
-├── README.md
-├── USO_IA.md
-├── CHECKLIST_ENTREGA.md
-└── package.json
-```
-
----
-
-## Tecnologias
-
-- React / Vite (disfarce público do clima)
-- Expo + React Native
-- React Navigation (Stack / Tab / Drawer)
-- Redux Toolkit
-- Node.js + Express
-- PostgreSQL
-- Fetch REST
-
----
-
-## Pré-requisitos
-
-- Node.js 18+
-- NPM
-- Expo CLI para execução do app mobile
-- PostgreSQL 14+ apenas se optar por usar um banco externo
-
-## Aplicação web (Vite)
-
-O frontend web fica na raiz do repositório. Para iniciá-lo:
-
-```powershell
-npm install
-npm run dev
-```
-
-O Vite informará o endereço local da aplicação. Backend e mobile são projetos
-separados e devem ser iniciados em suas respectivas pastas.
-
----
-
-## Configuração do backend
+Inicie o serviço PostgreSQL e crie o banco `weather_now` (por exemplo, pelo
+pgAdmin ou com `createdb -U postgres weather_now`). Em seguida:
 
 ```powershell
 cd backend
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+```
+
+Edite `backend/.env`, mantendo `DB_DRIVER=postgres`, e configure `DATABASE_URL`
+ou `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` e `DB_NAME`. Não compartilhe
+nem versione credenciais. A inicialização da API aplica o esquema e as
+alterações aditivas necessárias; não apaga tabelas ou registros existentes.
+
+```powershell
 npm install
 npm run dev
 ```
 
-A API fica em `http://localhost:3001`. Por padrão, usa PGlite e cria as tabelas
-automaticamente; no Windows, os dados locais são persistidos em
-`%LOCALAPPDATA%\Weather Now\weather_now_v2`.
-Dados de instalações anteriores em `%LOCALAPPDATA%\Weather Now\weather_now`
-permanecem preservados e não são migrados automaticamente.
-Para usar PostgreSQL externo, copie `.env.example` para `.env`, configure
-`DATABASE_URL` ou `DB_HOST` e crie o banco antes de iniciar a API.
+A API fica em `http://localhost:3001`. PostgreSQL é o modo padrão e o exigido
+para demonstrar a Entrega 2. PGlite está disponível apenas como alternativa
+local de desenvolvimento, com `DB_DRIVER=pglite`; nesse modo, configure
+`PGLITE_DATA_DIR` se desejar escolher outro diretório persistente.
+
+A usuária fictícia é identificada pela chave estável `weather_now_demo`.
+O backend resolve o ID existente em cada inicialização e associa ocorrências,
+contatos e alertas a esse usuário, sem depender de um ID numérico fixo enviado
+pelo aplicativo.
 
 ### Endpoints principais
 
-- `GET /ocorrencias`
-- `GET /ocorrencias/:id`
-- `POST /ocorrencias`
-- `PUT /ocorrencias/:id`
-- `DELETE /ocorrencias/:id`
-- `GET /contatos-apoio?usuario_id=1`
-- `POST /contatos-apoio`
-- `PUT /contatos-apoio/:id`
-- `DELETE /contatos-apoio/:id`
-- `GET /alertas`
-- `POST /alertas`
-- `PATCH /alertas/:id/status`
+- Ocorrências: `GET/POST /ocorrencias`, `GET/PUT/DELETE /ocorrencias/:id`.
+- Rede de apoio: `GET/POST /contatos-apoio`,
+  `GET/PUT/DELETE /contatos-apoio/:id`.
+- Alertas: `GET/POST /alertas`, `PATCH /alertas/:id/status`.
 
----
+## Aplicativo de clima (Vite)
 
-## Configuração do mobile
+Na raiz do repositório:
 
-Mantenha o backend iniciado em outro terminal antes de usar os formulários do app.
-No navegador do mesmo computador, a URL padrão da API é `http://localhost:3001`.
+```powershell
+npm install
+npm run dev
+```
+
+O Vite informa o endereço local da interface pública de clima.
+
+## Aplicativo mobile (Expo)
+
+Mantenha a API iniciada. No navegador do mesmo computador, `localhost` funciona
+como endereço da API. Para Android emulador, configure
+`EXPO_PUBLIC_API_URL=http://10.0.2.2:3001`; para dispositivo físico, use o IP do
+computador na rede local.
 
 ```powershell
 cd moblie
-copy .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 npm install
 npm run web
 ```
 
-Para Android emulador: use `http://10.0.2.2:3001`.
-Para dispositivo físico, configure `EXPO_PUBLIC_API_URL` com o IP local do computador.
+O SOS solicita permissão de localização quando acionado. Se ela for negada ou
+a posição não puder ser obtida, registra as coordenadas fictícias de demonstração
+e identifica o alerta como simulado. Nenhum alerta é enviado a serviços reais.
 
----
+## Dashboard
 
-## Dashboard web
+Com a API em execução, em outro terminal:
 
 ```powershell
 cd dashboard
 python -m http.server 8000
 ```
 
-Em seguida, abra `http://localhost:8000`.
+Abra `http://localhost:8000`. O painel consulta `http://localhost:3001/alertas`,
+atualiza automaticamente a cada 8 segundos e permite alterar o status dos
+alertas demonstrativos. Para usar outra URL da API, informe o parâmetro
+`?api=http://host:porta` na URL do painel.
 
-O painel consulta a API em `http://localhost:3001/alertas` e atualiza automaticamente.
+## Passo a passo para demonstração
 
----
+1. Inicie PostgreSQL, API, Expo Web e dashboard em terminais separados.
+2. Abra o app de clima e toque cinco vezes em “Londrina”.
+3. Digite o PIN demonstrativo `1234`.
+4. Crie, liste, edite e exclua uma ocorrência e um contato de apoio.
+5. Registre um SOS demonstrativo e confirme sua aparição no dashboard.
+6. Use “Sair” no cabeçalho de uma tela reservada. O app retorna ao clima, limpa
+   os dados sensíveis do estado em memória e exige o PIN novamente.
 
-## Fluxo de demonstração
+## Limitações
 
-1. Abra o app e toque 5 vezes em “Londrina”.
-2. Digite o PIN `1234`.
-3. Use a área reservada para:
-   - cadastrar ocorrências;
-   - manter contatos de apoio;
-   - enviar SOS demonstrativo;
-   - consultar alertas no dashboard.
-
----
-
-## Limitações do protótipo
-
-- é um protótipo acadêmico;
-- não deve ser tratado como serviço real de emergência;
-- não envia alertas para autoridades reais;
-- os dados são demonstração e devem permanecer fictícios.
-
----
-
-## Funcionalidades implementadas
-
-- CRUD de ocorrências
-- CRUD de rede de apoio
-- registro de alertas SOS
-- dashboard de monitoramento
-- saída rápida da área reservada
-- navegação protegida por PIN
-- documentação de uso e checklist
+- É um protótipo acadêmico, não um serviço real de emergência.
+- Os alertas SOS são demonstrativos e não contatam autoridades.
+- A autenticação por PIN é apenas demonstrativa e não substitui autenticação
+  apropriada para produção.

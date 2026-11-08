@@ -1,15 +1,18 @@
 // screens/reservada/SOSTela.js — tela SOS (Tab 2)
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
   Linking,
   Pressable,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import * as Location from "expo-location";
 import { criarAlerta } from "../../api";
+import SaidaRapidaButton from "../../navigation/SaidaRapidaButton";
 
 const CONTATOS_EMERGENCIA = [
   { nome: "Ligue 180", numero: "180", descricao: "Central de Atendimento à Mulher" },
@@ -19,83 +22,119 @@ const CONTATOS_EMERGENCIA = [
   { nome: "Disque 100", numero: "100", descricao: "Direitos Humanos" },
 ];
 
-const DEMO_USER_ID = 1;
+const COORDENADAS_DEMONSTRACAO = {
+  latitude: -23.5505,
+  longitude: -46.6333,
+};
 
 export default function SOSTela() {
   const [enviando, setEnviando] = useState(false);
+  const [mensagem, setMensagem] = useState("");
+  const envioEmAndamento = useRef(false);
 
   function ligar(numero) {
     Linking.openURL(`tel:${numero}`);
   }
 
-  async function dispararSOS() {
-    if (enviando) return;
+  function confirmarEnvio() {
+    const texto =
+      "Este alerta será registrado apenas no protótipo acadêmico. Nada será enviado para autoridades ou serviços reais de emergência.";
 
-    const confirmar = await new Promise((resolve) => {
-      Alert.alert(
-        "Confirmar alerta demonstrativo",
-        "Este alerta será registrado no protótipo para simulação acadêmica. Não será enviado para autoridades reais.",
-        [
-          { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
-          { text: "Enviar alerta", onPress: () => resolve(true) },
-        ]
-      );
-    });
-
-    if (!confirmar) return;
-
-    setEnviando(true);
-
-    let latitude = -23.5505;
-    let longitude = -46.6333;
-    let simulada = true;
-
-    try {
-      const geolocation = globalThis.navigator?.geolocation;
-      if (geolocation) {
-        const pos = await new Promise((resolve, reject) => {
-          geolocation.getCurrentPosition(resolve, reject, {
-            timeout: 5000,
-            enableHighAccuracy: true,
-          });
-        });
-
-        latitude = pos.coords.latitude;
-        longitude = pos.coords.longitude;
-        simulada = false;
-      }
-    } catch {
-      latitude = -23.5505;
-      longitude = -46.6333;
-      simulada = true;
+    if (Platform.OS === "web") {
+      return Promise.resolve(globalThis.confirm(texto));
     }
 
+    return new Promise((resolve) => {
+      Alert.alert("Confirmar alerta demonstrativo", texto, [
+        { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+        { text: "Registrar", onPress: () => resolve(true) },
+      ]);
+    });
+  }
+
+  async function obterLocalizacao() {
+    const permissao = await Location.requestForegroundPermissionsAsync();
+    if (permissao.status !== "granted") {
+      return {
+        ...COORDENADAS_DEMONSTRACAO,
+        simulada: true,
+        motivo: "Permissão de localização negada; foram usadas coordenadas fictícias.",
+      };
+    }
+
+    let timer;
     try {
+      const posicao = await Promise.race([
+        Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        }),
+        new Promise((_, reject) => {
+          timer = setTimeout(
+            () => reject(new Error("Tempo limite ao obter localização.")),
+            10000
+          );
+        }),
+      ]);
+      return {
+        latitude: posicao.coords.latitude,
+        longitude: posicao.coords.longitude,
+        simulada: false,
+        motivo: "",
+      };
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function dispararSOS() {
+    if (envioEmAndamento.current) return;
+    envioEmAndamento.current = true;
+    setEnviando(true);
+    setMensagem("");
+
+    try {
+      if (!(await confirmarEnvio())) return;
+
+      let localizacao;
+      try {
+        localizacao = await obterLocalizacao();
+      } catch {
+        localizacao = {
+          ...COORDENADAS_DEMONSTRACAO,
+          simulada: true,
+          motivo: "Não foi possível obter a localização; foram usadas coordenadas fictícias.",
+        };
+      }
+
       await criarAlerta({
-        usuario_id: DEMO_USER_ID,
-        latitude,
-        longitude,
+        latitude: localizacao.latitude,
+        longitude: localizacao.longitude,
         data_hora: new Date().toISOString(),
         status: "PENDENTE",
         tipo_alerta: "SOS",
-        localizacao_simulada: simulada,
+        localizacao_simulada: localizacao.simulada,
       });
 
-      Alert.alert(
-        "Alerta registrado",
-        simulada
-          ? "Alerta demonstrativo enviado com coordenadas fictícias."
-          : "Alerta demonstrativo enviado com sua localização atual."
+      setMensagem(
+        localizacao.simulada
+          ? `Alerta demonstrativo registrado. ${localizacao.motivo}`
+          : "Alerta demonstrativo registrado com sua localização atual."
       );
     } catch (err) {
-      Alert.alert("Erro ao registrar alerta", err.message || "Não foi possível enviar o alerta.");
+      setMensagem(
+        `Erro ao registrar alerta: ${err.message || "não foi possível concluir a operação."}`
+      );
     } finally {
+      envioEmAndamento.current = false;
       setEnviando(false);
     }
   }
 
   return (
     <SafeAreaView style={styles.safe}>
+      <View style={styles.quickExit}>
+        <SaidaRapidaButton />
+      </View>
       <View style={styles.header}>
         <Text style={styles.sosIcon}>🆘</Text>
         <Text style={styles.title}>Ajuda Imediata</Text>
@@ -115,6 +154,11 @@ export default function SOSTela() {
           {enviando ? "Registrando alerta..." : "Enviar SOS demonstrativo"}
         </Text>
       </Pressable>
+      {mensagem ? (
+        <Text accessibilityRole="alert" style={styles.mensagem}>
+          {mensagem}
+        </Text>
+      ) : null}
 
       <View style={styles.lista}>
         {CONTATOS_EMERGENCIA.map((contato) => (
@@ -153,6 +197,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#07111f",
     padding: 20,
   },
+  quickExit: {
+    alignItems: "flex-end",
+    marginBottom: 8,
+  },
   header: {
     alignItems: "center",
     marginBottom: 24,
@@ -188,6 +236,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "700",
+  },
+  mensagem: {
+    color: "#dce5f4",
+    fontSize: 13,
+    lineHeight: 19,
+    marginBottom: 14,
+    textAlign: "center",
   },
   lista: {
     gap: 10,

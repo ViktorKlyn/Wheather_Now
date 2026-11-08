@@ -1,19 +1,13 @@
 // screens/reservada/SobreTela.js — tela "Sobre o App" acessada pelo Drawer
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import { sair } from "../../store/authSlice";
 
 export default function SobreTela() {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   function sairDaArea() {
     dispatch(sair());
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "DisfarceStack" }],
-    });
   }
 
   return (

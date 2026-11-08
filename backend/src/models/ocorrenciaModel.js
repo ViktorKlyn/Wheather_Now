@@ -3,17 +3,18 @@ const pool = require("../db");
 
 const ocorrenciaModel = {
   // SELECT * : lista todas as ocorrências
-  listar() {
+  listar(usuarioId) {
     return pool.query(
-      "SELECT id, data, descricao, usuario_id FROM ocorrencias ORDER BY id"
+      "SELECT id, data, descricao, usuario_id FROM ocorrencias WHERE usuario_id = $1 ORDER BY id",
+      [usuarioId]
     );
   },
 
   // Busca uma ocorrência pelo id
-  buscarPorId(id) {
+  buscarPorId(id, usuarioId) {
     return pool.query(
-      "SELECT id, data, descricao, usuario_id FROM ocorrencias WHERE id = $1",
-      [id]
+      "SELECT id, data, descricao, usuario_id FROM ocorrencias WHERE id = $1 AND usuario_id = $2",
+      [id, usuarioId]
     );
   },
 
@@ -26,16 +27,19 @@ const ocorrenciaModel = {
   },
 
   // UPDATE : altera um registro existente
-  atualizar(id, { data, descricao, usuario_id }) {
+  atualizar(id, { data, descricao }, usuarioId) {
     return pool.query(
-      "UPDATE ocorrencias SET data = $1, descricao = $2, usuario_id = $3 WHERE id = $4 RETURNING *",
-      [data, descricao, usuario_id, id]
+      "UPDATE ocorrencias SET data = $1, descricao = $2 WHERE id = $3 AND usuario_id = $4 RETURNING *",
+      [data, descricao, id, usuarioId]
     );
   },
 
   // DELETE : remove pelo id
-  excluir(id) {
-    return pool.query("DELETE FROM ocorrencias WHERE id = $1 RETURNING *", [id]);
+  excluir(id, usuarioId) {
+    return pool.query(
+      "DELETE FROM ocorrencias WHERE id = $1 AND usuario_id = $2 RETURNING *",
+      [id, usuarioId]
+    );
   }
 };
 

@@ -31,13 +31,11 @@ export default function FormularioTela() {
 
   const [data, setData] = useState(ocorrencia?.data?.slice(0, 10) ?? hoje());
   const [descricao, setDescricao] = useState(ocorrencia?.descricao ?? "");
-  const [usuarioId, setUsuarioId] = useState(String(ocorrencia?.usuario_id ?? 1));
 
   async function salvar() {
     const dados = {
       data,
       descricao: descricao.trim(),
-      usuario_id: Number(usuarioId),
     };
 
     let resultado;
@@ -88,15 +86,6 @@ export default function FormularioTela() {
             style={[styles.input, styles.multiline]}
             textAlignVertical="top"
             value={descricao}
-          />
-
-          <Text style={styles.label}>ID da Usuária</Text>
-          <TextInput
-            accessibilityLabel="Identificador da usuária"
-            keyboardType="number-pad"
-            onChangeText={setUsuarioId}
-            style={styles.input}
-            value={usuarioId}
           />
 
           {erro ? <Text style={styles.erro}>{erro}</Text> : null}

@@ -1,5 +1,5 @@
 // screens/PinTela.js — tela de acesso via PIN (Stack navigation)
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Pressable,
   SafeAreaView,
@@ -15,15 +15,9 @@ import { validarPin, limparErroAuth } from "../store/authSlice";
 export default function PinTela() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { autenticado, erro } = useSelector((s) => s.auth);
+  const { erro } = useSelector((s) => s.auth);
 
   const [pinDigitado, setPinDigitado] = useState("");
-
-  useEffect(() => {
-    if (autenticado) {
-      navigation.replace("Reservada");
-    }
-  }, [autenticado, navigation]);
 
   function tentarEntrar() {
     dispatch(validarPin(pinDigitado));

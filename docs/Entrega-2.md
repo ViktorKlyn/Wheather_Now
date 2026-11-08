@@ -1,16 +1,17 @@
 # Weather Now — Entrega 2
 
-Entrega acadêmica com uma API Express e PostgreSQL, mais uma interface Expo
-simples. O frontend Vite que já existia foi preservado; o aplicativo móvel está
-na pasta `moblie`.
+Entrega acadêmica com API Express, PostgreSQL e aplicativo Expo. O frontend
+Vite já existente foi preservado; o aplicativo móvel está em `moblie`.
 
-## Banco e API
+## PostgreSQL e API
 
-1. Crie um banco PostgreSQL chamado `weather_now`.
-2. Copie `backend/.env.example` para `backend/.env` e ajuste os dados locais.
-   Não substitua um `.env` existente sem preservar suas configurações.
-3. Execute `backend/database/schema.sql` conectado ao banco `weather_now`.
-4. No terminal, instale as dependências e inicie a API:
+PostgreSQL 14+ é o banco exigido nesta entrega.
+
+1. Inicie PostgreSQL e crie o banco `weather_now`.
+2. Copie `backend/.env.example` para `backend/.env` sem sobrescrever arquivos
+   locais existentes.
+3. Configure `DB_DRIVER=postgres` e os parâmetros de conexão.
+4. Inicie a API:
 
    ```powershell
    cd backend
@@ -18,40 +19,55 @@ na pasta `moblie`.
    npm run dev
    ```
 
-A API fica em `http://localhost:3001`. As rotas de ocorrências são:
+Ao iniciar, a API aplica as definições e migrações aditivas do
+`backend/database/schema.sql`. A inicialização não remove tabelas nem registros.
+O banco deve existir previamente. A API fica em `http://localhost:3001`.
 
-- `GET /ocorrencias` e `GET /ocorrencias/:id`
-- `POST /ocorrencias` e `PUT /ocorrencias/:id` — recebem `data`
-  (`AAAA-MM-DD`), `descricao` e `usuario_id` no JSON.
-- `DELETE /ocorrencias/:id`
+PGlite está disponível apenas como alternativa de desenvolvimento local, usando
+`DB_DRIVER=pglite`; essa configuração não comprova o requisito acadêmico de
+PostgreSQL tradicional.
 
-O campo `usuario_id` é informado pelo formulário; como esta entrega não inclui
-cadastro de usuários, o valor inicial no app é `1`.
+A usuária fictícia é localizada por `codigo = 'weather_now_demo'`. O backend usa
+o ID existente no banco para associar ocorrências, contatos e alertas. O cliente
+não precisa enviar um ID numérico fixo.
+
+Rotas:
+
+- Ocorrências: `GET/POST /ocorrencias`,
+  `GET/PUT/DELETE /ocorrencias/:id`.
+- Rede de apoio: `GET/POST /contatos-apoio`,
+  `GET/PUT/DELETE /contatos-apoio/:id`.
+- SOS: `GET/POST /alertas`, `PATCH /alertas/:id/status`.
 
 ## Aplicativo Expo
 
-Configure o endereço da API em `moblie/.env` copiando `moblie/.env.example`.
-`localhost` funciona para simuladores que compartilham o host do computador.
-No emulador Android, use `http://10.0.2.2:3001`; em um aparelho físico, use o IP
-local do computador na rede Wi-Fi.
+Configure o endereço da API em `moblie/.env`, copiando
+`moblie/.env.example`. `localhost` funciona no navegador do próprio computador.
+No emulador Android use `http://10.0.2.2:3001`; em um aparelho físico use o IP
+local do computador.
 
 ```powershell
 cd moblie
 npm install
-npm start
-```
-
-Para abrir no navegador, inicie a API em um terminal e, em outro, execute:
-
-```powershell
-cd moblie
 npm run web
 ```
 
-O Expo abrirá o app no navegador, normalmente em `http://localhost:8081`.
-Na web, o endereço padrão `http://localhost:3001` da API funciona se ela estiver
-rodando no mesmo computador.
+O Expo Web normalmente abre em `http://localhost:8081`. O app apresenta clima
+fictício; cinco toques em “Londrina” abrem o PIN demonstrativo `1234`.
 
-O app exibe uma previsão fictícia. Cinco toques em “Londrina” abrem a tela do
-PIN (`1234`); o menu secreto permite criar, listar, editar e excluir ocorrências
-e exibe uma confirmação simples para o botão SOS.
+O SOS solicita permissão com `expo-location`. Sem permissão ou sem posição
+disponível, usa coordenadas fictícias e identifica o registro como simulado.
+Nenhum alerta é enviado a serviços reais.
+
+## Interface pública e dashboard
+
+Na raiz, `npm run dev` inicia o frontend Vite. Com a API em execução, o dashboard
+pode ser aberto servindo `dashboard/`:
+
+```powershell
+cd dashboard
+python -m http.server 8000
+```
+
+O painel fica em `http://localhost:8000`, consulta a API e atualiza os alertas
+automaticamente a cada 8 segundos. Também permite alterar o status dos alertas.

@@ -31,7 +31,6 @@ export default function FormularioContatoTela() {
       nome: nome.trim(),
       telefone: telefone.trim(),
       grau_relacionamento: grauRelacionamento.trim(),
-      usuario_id: 1,
     };
 
     let resultado;

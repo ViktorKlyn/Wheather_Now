@@ -7,8 +7,12 @@ CREATE TABLE IF NOT EXISTS usuarios (
   id         SERIAL PRIMARY KEY,
   nome       VARCHAR(120) NOT NULL,
   pin_hash   VARCHAR(64) NOT NULL,
+  codigo     VARCHAR(80),
   criado_em  TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS codigo VARCHAR(80);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_usuarios_codigo ON usuarios(codigo);
 
 -- ── Tabela de ocorrências ───────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS ocorrencias (
@@ -48,23 +52,39 @@ CREATE INDEX IF NOT EXISTS idx_contatos_apoio_usuario ON contatos_apoio(usuario_
 CREATE INDEX IF NOT EXISTS idx_alertas_sos_usuario ON alertas_sos(usuario_id);
 CREATE INDEX IF NOT EXISTS idx_alertas_sos_status ON alertas_sos(status);
 
--- ── Usuária padrão para testes (PIN = 1234 → hash SHA-256) ──────────────────
-INSERT INTO usuarios (nome, pin_hash)
-SELECT 'Usuária Padrão', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'
-WHERE NOT EXISTS (
-  SELECT 1 FROM usuarios WHERE nome = 'Usuária Padrão'
+-- ── Usuária de demonstração com identificação estável ────────────────────────
+UPDATE usuarios
+SET codigo = 'weather_now_demo'
+WHERE id = (
+  SELECT id FROM usuarios
+  WHERE nome = 'Usuária Padrão' AND codigo IS NULL
+  ORDER BY id
+  LIMIT 1
+)
+AND NOT EXISTS (
+  SELECT 1 FROM usuarios WHERE codigo = 'weather_now_demo'
 );
+
+INSERT INTO usuarios (nome, pin_hash, codigo)
+VALUES (
+  'Usuária Padrão',
+  '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
+  'weather_now_demo'
+)
+ON CONFLICT (codigo) DO NOTHING;
 
 -- ── Contatos de demonstração ─────────────────────────────────────────────────
 INSERT INTO contatos_apoio (nome, telefone, grau_relacionamento, usuario_id)
-SELECT * FROM (
+SELECT valores.nome, valores.telefone, valores.grau_relacionamento, u.id
+FROM (
   VALUES
-    ('Mãe', '(11) 99999-1234', 'Família', 1),
-    ('Melhor amiga', '(11) 98888-4321', 'Amiga', 1),
-    ('Vizinha', '(11) 97777-1111', 'Vizinhança', 1)
-) AS valores(nome, telefone, grau_relacionamento, usuario_id)
-WHERE NOT EXISTS (
-  SELECT 1 FROM contatos_apoio c
-  WHERE c.usuario_id = 1
-    AND c.nome = valores.nome
-);
+    ('Mãe', '(11) 99999-1234', 'Família'),
+    ('Melhor amiga', '(11) 98888-4321', 'Amiga'),
+    ('Vizinha', '(11) 97777-1111', 'Vizinhança')
+) AS valores(nome, telefone, grau_relacionamento)
+CROSS JOIN usuarios u
+WHERE u.codigo = 'weather_now_demo'
+  AND NOT EXISTS (
+    SELECT 1 FROM contatos_apoio c
+    WHERE c.usuario_id = u.id AND c.nome = valores.nome
+  );

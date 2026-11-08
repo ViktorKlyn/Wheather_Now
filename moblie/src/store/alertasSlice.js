@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { listarAlertas, criarAlerta } from "../api";
+import { sair } from "./authSlice";
 
 export const fetchAlertas = createAsyncThunk(
   "alertas/fetchAll",
@@ -37,6 +38,11 @@ const alertasSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(sair, () => ({
+        lista: [],
+        carregando: false,
+        erro: null,
+      }))
       .addCase(fetchAlertas.pending, (state) => {
         state.carregando = true;
         state.erro = null;

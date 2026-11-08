@@ -26,6 +26,17 @@
 
 ---
 
+## Correção Final — Weather Now 2.0
+
+| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) |
+|------|-----------|-----------|--------------------------|
+| 07/Nov/2026 | Assistente de IA (Copilot SDK no VS Code) | Revisar e corrigir navegação protegida, SOS com localização, PostgreSQL, usuário demo, dashboard, CRUDs e documentação | _"Analise o workspace existente, corrija os problemas apontados na auditoria, execute os testes possíveis e relate resultados e pendências sem apagar dados ou fazer commits."_ |
+
+As validações realizadas nesta correção estão registradas em
+`CHECKLIST_ENTREGA.md`; itens sem evidência não são declarados como testados.
+
+---
+
 ## Observações de Uso Ético
 
 - Todos os prompts foram utilizados para **geração de código de apoio** e **estruturação de análises**, não para substituir o raciocínio analítico do grupo.

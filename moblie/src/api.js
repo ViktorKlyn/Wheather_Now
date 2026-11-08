@@ -52,8 +52,8 @@ export function excluirOcorrencia(id) {
   return request(`/ocorrencias/${id}`, { method: "DELETE" });
 }
 
-export function listarContatosApoio(usuarioId = 1) {
-  return request(`/contatos-apoio?usuario_id=${usuarioId}`);
+export function listarContatosApoio() {
+  return request("/contatos-apoio");
 }
 
 export function criarContatoApoio(contato) {
@@ -70,10 +70,8 @@ export function atualizarContatoApoio(id, contato) {
   });
 }
 
-export function excluirContatoApoio(id, usuarioId = 1) {
-  return request(`/contatos-apoio/${id}?usuario_id=${usuarioId}`, {
-    method: "DELETE",
-  });
+export function excluirContatoApoio(id) {
+  return request(`/contatos-apoio/${id}`, { method: "DELETE" });
 }
 
 export function listarAlertas() {

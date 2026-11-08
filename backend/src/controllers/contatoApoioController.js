@@ -1,30 +1,23 @@
 const contatoApoioModel = require("../models/contatoApoioModel");
+const database = require("../db");
 
 function idValido(id) {
   return /^\d+$/.test(id) && Number.isSafeInteger(Number(id)) && Number(id) > 0;
 }
 
-function usuarioValido(usuarioId) {
-  return Number.isSafeInteger(Number(usuarioId)) && Number(usuarioId) > 0;
-}
-
-function contatoValido({ nome, telefone, grau_relacionamento, usuario_id }) {
+function contatoValido({ nome, telefone, grau_relacionamento }) {
   const nomeValido = typeof nome === "string" && nome.trim().length >= 2;
   const telefoneValido =
     typeof telefone === "string" && /^\+?[0-9()\-\s]{8,20}$/.test(telefone.trim());
   const grauValido =
     typeof grau_relacionamento === "string" && grau_relacionamento.trim().length >= 2;
-  return nomeValido && telefoneValido && grauValido && usuarioValido(usuario_id);
+  return nomeValido && telefoneValido && grauValido;
 }
 
 const contatoApoioController = {
   async listar(req, res) {
     try {
-      const usuarioId = Number(req.query.usuario_id ?? 1);
-      if (!usuarioValido(usuarioId)) {
-        return res.status(400).json({ erro: "usuario_id inválido" });
-      }
-
+      const usuarioId = await database.getDemoUserId();
       const resultado = await contatoApoioModel.listar(usuarioId);
       return res.json(resultado.rows);
     } catch (erro) {
@@ -36,11 +29,11 @@ const contatoApoioController = {
   async buscarPorId(req, res) {
     try {
       const { id } = req.params;
-      const usuarioId = Number(req.query.usuario_id ?? 1);
-      if (!idValido(id) || !usuarioValido(usuarioId)) {
-        return res.status(400).json({ erro: "ID ou usuario_id inválido" });
+      if (!idValido(id)) {
+        return res.status(400).json({ erro: "ID inválido" });
       }
 
+      const usuarioId = await database.getDemoUserId();
       const resultado = await contatoApoioModel.buscarPorId(id, usuarioId);
       if (resultado.rows.length === 0) {
         return res.status(404).json({ erro: "Contato não encontrado" });
@@ -55,11 +48,11 @@ const contatoApoioController = {
 
   async criar(req, res) {
     try {
-      const { nome, telefone, grau_relacionamento, usuario_id } = req.body || {};
+      const { nome, telefone, grau_relacionamento } = req.body || {};
 
-      if (!contatoValido({ nome, telefone, grau_relacionamento, usuario_id })) {
+      if (!contatoValido({ nome, telefone, grau_relacionamento })) {
         return res.status(400).json({
-          erro: "Informe nome, telefone, grau de relacionamento e usuario_id válidos",
+          erro: "Informe nome, telefone e grau de relacionamento válidos",
         });
       }
 
@@ -67,7 +60,7 @@ const contatoApoioController = {
         nome: nome.trim(),
         telefone: telefone.trim(),
         grau_relacionamento: grau_relacionamento.trim(),
-        usuario_id: Number(usuario_id),
+        usuario_id: await database.getDemoUserId(),
       });
 
       return res.status(201).json(resultado.rows[0]);
@@ -80,20 +73,20 @@ const contatoApoioController = {
   async atualizar(req, res) {
     try {
       const { id } = req.params;
-      const { nome, telefone, grau_relacionamento, usuario_id } = req.body || {};
+      const { nome, telefone, grau_relacionamento } = req.body || {};
 
-      if (!idValido(id) || !contatoValido({ nome, telefone, grau_relacionamento, usuario_id })) {
+      if (!idValido(id) || !contatoValido({ nome, telefone, grau_relacionamento })) {
         return res.status(400).json({
           erro: "Informe dados válidos para atualizar o contato",
         });
       }
 
+      const usuarioId = await database.getDemoUserId();
       const resultado = await contatoApoioModel.atualizar(id, {
         nome: nome.trim(),
         telefone: telefone.trim(),
         grau_relacionamento: grau_relacionamento.trim(),
-        usuario_id: Number(usuario_id),
-      });
+      }, usuarioId);
 
       if (resultado.rows.length === 0) {
         return res.status(404).json({ erro: "Contato não encontrado" });
@@ -109,12 +102,11 @@ const contatoApoioController = {
   async excluir(req, res) {
     try {
       const { id } = req.params;
-      const usuarioId = Number(req.query.usuario_id ?? 1);
-
-      if (!idValido(id) || !usuarioValido(usuarioId)) {
-        return res.status(400).json({ erro: "ID ou usuario_id inválido" });
+      if (!idValido(id)) {
+        return res.status(400).json({ erro: "ID inválido" });
       }
 
+      const usuarioId = await database.getDemoUserId();
       const resultado = await contatoApoioModel.excluir(id, usuarioId);
       if (resultado.rows.length === 0) {
         return res.status(404).json({ erro: "Contato não encontrado" });

@@ -16,6 +16,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Text } from "react-native";
+import { useSelector } from "react-redux";
 
 import ClimaTela from "../screens/ClimaTela";
 import PinTela from "../screens/PinTela";
@@ -25,6 +26,7 @@ import ContatosTela from "../screens/reservada/ContatosTela";
 import FormularioContatoTela from "../screens/reservada/FormularioContatoTela";
 import SOSTela from "../screens/reservada/SOSTela";
 import SobreTela from "../screens/reservada/SobreTela";
+import SaidaRapidaButton from "./SaidaRapidaButton";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,7 +49,12 @@ const tabBarStyle = {
 // ── Stack interno de Ocorrências (lista + formulário) ───────────────────────
 function OcorrenciasStack() {
   return (
-    <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Navigator
+      screenOptions={{
+        ...screenOptions,
+        headerRight: () => <SaidaRapidaButton />,
+      }}
+    >
       <Stack.Screen
         name="Lista"
         component={OcorrenciasTela}
@@ -68,7 +75,12 @@ function OcorrenciasStack() {
 
 function ContatosStack() {
   return (
-    <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Navigator
+      screenOptions={{
+        ...screenOptions,
+        headerRight: () => <SaidaRapidaButton />,
+      }}
+    >
       <Stack.Screen
         name="ListaContatos"
         component={ContatosTela}
@@ -171,21 +183,27 @@ function DrawerReservada() {
 
 // ── Stack raiz ──────────────────────────────────────────────────────────────
 export default function AppNavigator() {
+  const autenticado = useSelector((state) => state.auth.autenticado);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* Tela de disfarce — pública */}
-        <Stack.Screen name="DisfarceStack" component={ClimaTela} />
-
-        {/* PIN — empilhado sobre o disfarce */}
-        <Stack.Screen
-          name="Pin"
-          component={PinTela}
-          options={{ presentation: "modal", animation: "slide_from_bottom" }}
-        />
-
-        {/* Área reservada — Drawer com Tabs dentro */}
-        <Stack.Screen name="Reservada" component={DrawerReservada} />
+      <Stack.Navigator
+        key={autenticado ? "autenticado" : "publico"}
+        initialRouteName={autenticado ? "Reservada" : "DisfarceStack"}
+        screenOptions={{ headerShown: false }}
+      >
+        {autenticado ? (
+          <Stack.Screen name="Reservada" component={DrawerReservada} />
+        ) : (
+          <>
+            <Stack.Screen name="DisfarceStack" component={ClimaTela} />
+            <Stack.Screen
+              name="Pin"
+              component={PinTela}
+              options={{ presentation: "modal", animation: "slide_from_bottom" }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

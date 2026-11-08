@@ -5,6 +5,7 @@ import {
   atualizarContatoApoio,
   excluirContatoApoio,
 } from "../api";
+import { sair } from "./authSlice";
 
 export const fetchContatos = createAsyncThunk(
   "contatos/fetchAll",
@@ -65,6 +66,11 @@ const contatosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(sair, () => ({
+        lista: [],
+        carregando: false,
+        erro: null,
+      }))
       .addCase(fetchContatos.pending, (state) => {
         state.carregando = true;
         state.erro = null;

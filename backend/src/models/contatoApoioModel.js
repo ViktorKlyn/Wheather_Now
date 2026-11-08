@@ -22,10 +22,10 @@ const contatoApoioModel = {
     );
   },
 
-  atualizar(id, { nome, telefone, grau_relacionamento, usuario_id }) {
+  atualizar(id, { nome, telefone, grau_relacionamento }, usuarioId) {
     return pool.query(
-      "UPDATE contatos_apoio SET nome = $1, telefone = $2, grau_relacionamento = $3, usuario_id = $4 WHERE id = $5 RETURNING *",
-      [nome, telefone, grau_relacionamento, usuario_id, id]
+      "UPDATE contatos_apoio SET nome = $1, telefone = $2, grau_relacionamento = $3 WHERE id = $4 AND usuario_id = $5 RETURNING *",
+      [nome, telefone, grau_relacionamento, id, usuarioId]
     );
   },
 

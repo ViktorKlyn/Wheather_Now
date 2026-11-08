@@ -7,6 +7,14 @@
     "userInterfaceStyle": "dark",
     "assetBundlePatterns": [
       "**/*"
+    ],
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Permitir que o Weather Now use sua localização para registrar um alerta SOS demonstrativo."
+        }
+      ]
     ]
   }
 }
