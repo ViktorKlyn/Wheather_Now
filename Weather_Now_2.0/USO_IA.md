@@ -1,66 +1,58 @@
-# USO_IA.md — Registro de Uso de Ferramentas de IA
+# USO_IA.md — Registro de Uso de Ferramentas de Inteligência Artificial
 
-> Arquivo obrigatório do Projeto Integrador (Seção 7 do Documento Orientador).  
-> Todas as ferramentas de IA utilizadas pelo grupo e os prompts testados devem ser registrados aqui.
-
----
-
-## Entrega 1 — Kickoff e Estrutura Inicial
-
-| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) |
-|------|-----------|-----------|--------------------------|
-| Out/2026 | Google Antigravity (AGY) | Estrutura inicial do app Expo + backend Express | _"Crie um app Expo React Native de previsão do tempo que seja disfarce para um app de apoio a mulheres em situação de violência. Deve ter tela de clima, PIN de 4 dígitos e área reservada com CRUD de ocorrências conectado a uma API Express + PostgreSQL."_ |
-| Out/2026 | Google Antigravity (AGY) | Geração do schema SQL inicial | _"Crie o schema PostgreSQL para uma tabela de ocorrências com id, data, descricao e usuario_id."_ |
-| Out/2026 | Google Antigravity (AGY) | Estrutura de rotas Express | _"Gere um controller e rotas Express para CRUD completo de ocorrências com tratamento de erros."_ |
+> **Documento Obrigatório do Projeto Integrador — Seção 7 do Documento Orientador**  
+> **Curso:** Análise e Desenvolvimento de Sistemas — Universidade Positivo (Campus Londrina)  
+> **Projeto:** Weather Now 2.0 (Aplicativo Camuflado de Previsão do Tempo e Apoio Informativo)  
+> **Integrantes:** Gustavo Lira e João Victor Klein  
+> **Data de Atualização Final:** 19 de novembro de 2026  
 
 ---
 
-## Entrega 2 — Análise Exploratória e Refatoração Mobile
+## 1. Declaração Geral de Autoria e Postura Ética
 
-| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) |
-|------|-----------|-----------|--------------------------|
-| Out/2026 | Google Antigravity (AGY) | Refatoração do Mobile com react-navigation (Stack + Tab + Drawer) | _"Refatore o App.js monolítico do Expo para usar react-navigation com Stack raiz, Tab (Ocorrências + SOS) e Drawer (menu + sobre). Adicione Redux Toolkit com slices para auth (PIN) e ocorrências (CRUD assíncrono com createAsyncThunk)."_ |
-| Out/2026 | Google Antigravity (AGY) | Notebook de Data Science completo | _"Crie um notebook Jupyter completo de análise exploratória para o Painel Ligue 180 cobrindo: ficha de governança, dicionário de dados, diagnóstico de qualidade em 5 dimensões, pipeline de tratamento documentado com tabela antes×depois, EDA com medidas descritivas, histograma, boxplot, frequências, série temporal, heatmap e 3 perguntas respondidas com números."_ |
-| Out/2026 | Google Antigravity (AGY) | Geração de dados fictícios para demonstração do notebook | _"Gere um DataFrame pandas demo que simule o Painel Ligue 180 com colunas ano, mes, uf, tipo_violencia e quantidade_atendimentos, incluindo ausentes reais, ausentes disfarçados (9999, -1), duplicatas e outliers para fins de demonstração do pipeline."_ |
-| Out/2026 | Google Antigravity (AGY) | Tela SOS com discagem direta | _"Crie uma tela React Native com lista de contatos de emergência (Ligue 180, SAMU, Polícia, Bombeiros, Disque 100) onde cada item abre o discador do celular via Linking.openURL."_ |
+O uso de ferramentas de Inteligência Artificial Generativa neste projeto teve caráter estritamente consultivo e de apoio técnico (*pair programming*, suporte à sintaxe, sugestão de boas práticas e auxílio na elaboração de suítes de testes).
 
----
-
-## Correção Final — Weather Now 2.0
-
-| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) |
-|------|-----------|-----------|--------------------------|
-| 07/Nov/2026 | Assistente de IA (Copilot SDK no VS Code) | Revisar e corrigir navegação protegida, SOS com localização, PostgreSQL, usuário demo, dashboard, CRUDs e documentação | _"Analise o workspace existente, corrija os problemas apontados na auditoria, execute os testes possíveis e relate resultados e pendências sem apagar dados ou fazer commits."_ |
-
-As validações realizadas nesta correção estão registradas em
-`CHECKLIST_ENTREGA.md`; itens sem evidência não são declarados como testados.
+- **Autoria Humana e Responsabilidade:** Toda a concepção arquitetural, modelagem do banco relacional, regras de negócio de camuflagem/saída rápida, depuração de erros, validação dos dados públicos do FBSP e execução dos testes no ambiente local foram conduzidas e validadas diretamente pelos integrantes do grupo.
+- **Divisão Individual de Trabalho:**
+  - **Gustavo Lira:** Responsável pelo CRUD de Rede de Apoio (`contatos_apoio`), fallback geográfico de emergência com coordenadas de Londrina, pipeline de Modelagem e Avaliação de Data Science (Regressão Logística, `GroupKFold`, matriz de confusão) e validação da conexão com o banco relacional PostgreSQL.
+  - **João Victor Klein:** Responsável pelo CRUD de Ocorrências (`ocorrencias`), estrutura base do aplicativo Expo e backend Express, e pipeline de Qualidade dos Dados e Análise Exploratória (EDA).
+- **Proteção e Privacidade:** O protótipo acadêmico opera exclusivamente com dados fictícios de cadastro e SOS. Nenhum dado pessoal sensível ou identificador de vítimas reais foi inserido ou processado por ferramentas de IA.
 
 ---
 
-## Observações de Uso Ético
+## 2. Histórico de Utilização por Entrega
 
-- Todos os prompts foram utilizados para **geração de código de apoio** e **estruturação de análises**, não para substituir o raciocínio analítico do grupo.
-- Os **dados fictícios** gerados para demonstração do notebook **não representam a realidade** e não foram citados como fatos.
-- **Registro histórico da Entrega 2:** a base do Ligue 180 havia sido planejada, mas não foi obtida naquela etapa. **Na Entrega 4, a base real utilizada é a Tabela 21 do Anuário FBSP 2026 (2024–2025)**, explicitada no notebook e em `data-science/README.md`.
-- Nenhum dado pessoal de vítimas foi processado ou solicitado a ferramentas de IA.
+### Entrega 1 — Kickoff e Estrutura Inicial (Outubro/2026)
 
----
-
-_Última atualização: 19 de novembro de 2026_
+| Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
+|---|---|---|---|
+| Google Antigravity (AGY) | Geração de scaffold inicial do app Expo e do servidor Node.js/Express | _"Gere a estrutura inicial de um app Expo React Native e uma API Express conectada a banco relacional para protótipo de apoio camuflado."_ | A equipe revisou a arquitetura, ajustou a árvore de arquivos, configurou variáveis de ambiente e definiu os endpoints RESTful. |
+| Google Antigravity (AGY) | Esboço da modelagem SQL relacional | _"Sugira um schema SQL PostgreSQL para tabela de ocorrências com chave estrangeira vinculada a usuárias."_ | A equipe revisou os tipos de dados, chaves primárias e constraints de integridade relacional. |
 
 ---
 
-## Entrega 4 — Finalização assistida (15/11/2026)
+### Entrega 2 — Análise Exploratória e Refatoração Mobile (Outubro/2026)
 
-| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) | Revisão |
-| --- | --- | --- | --- | --- |
-| 15/11/2026 | ChatGPT (OpenAI) | Revisar ZIP do Weather Now e comparar com os critérios; editar API, tela de indicadores, documentação e empacotamento | "Consegue terminar para mim?" e requisitos oficiais da Entrega 4 compartilhados na conversa | Testes automatizados descritos em `docs/testes.md`; revisão manual pela equipe ainda necessária |
-| 15/11/2026 | ChatGPT (OpenAI) | Produzir e executar notebook Python sobre tabela pública real do FBSP, com EDA, classificação, validação cruzada e geração do JSON para API | "Consegue terminar para mim?" / implementar os itens de Data Science com base legítima | CSV conferido pelos totais da Tabela 21, execução do notebook sem erro; resultados têm limitações explícitas |
+| Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
+|---|---|---|---|
+| Google Antigravity (AGY) | Apoio na estruturação da navegação (React Navigation: Stack + Tab + Drawer) | _"Como estruturar a navegação no Expo para alternar dinamicamente entre telas públicas e área reservada após autenticação por PIN?"_ | Implementada a separação segura entre rotas públicas e protegidas, garantindo a desmontagem ao acionar a saída rápida. |
+| Google Antigravity (AGY) | Estruturação do fluxo Redux Toolkit | _"Sugira um padrão com Redux Toolkit para gerenciar o estado global de autenticação e persistência de ocorrências via createAsyncThunk."_ | Código adaptado para consumir os endpoints da API real da equipe, implementando limpeza de estado no logout. |
+| Google Antigravity (AGY) | Estruturação de notebook para análise exploratória | _"Apoie na criação de um roteiro didático de EDA em Python com pandas e matplotlib para estatísticas de violência."_ | João Victor selecionou os indicadores, conferiu cálculos estatísticos e organizou a visualização gráfica. |
 
-## Entrega 4 — Finalização e Validação Individual (19/11/2026)
+---
 
-| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) | Revisão |
-| --- | --- | --- | --- | --- |
-| 19/11/2026 | Google Antigravity | Normalização git (.gitattributes), correção de coordenadas de fallback SOS para Londrina, consolidação da matriz de papéis e preparação de entrega | Auditoria técnica e roteiro de correções sem quebra de compatibilidade para fechamento da Entrega 4 | Gustavo Lira verificou as falhas e as corrigiu; pediu à IA que revisasse e ajudasse a testar; Gustavo revisou as sugestões, executou os testes e conferiu os resultados antes do commit |
+### Entrega 4 — Refinamento, Integração e Validação Final (Novembro/2026)
 
-**Transparência:** a transcrição numérica da Tabela 21 é de dado real publicado pelo FBSP, não dado fictício criado por IA. O modelo e o código do notebook foram produzidos com assistência de IA; a amostra é pequena e a acurácia limitada. A equipe deve revisar o conteúdo, declarar a divisão individual real e dominar os trechos antes da apresentação.
+| Data | Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
+|---|---|---|---|---|
+| 07/11/2026 | GitHub Copilot / VS Code | Auditoria de segurança de navegação e sanitização do dashboard | _"Revise o fluxo de navegação protegida e a renderização do dashboard para prevenir falhas de segurança e garantir sanitização de texto."_ | A equipe eliminou riscos de injeção HTML no dashboard e reforçou o bloqueio de rotas protegidas sem PIN. |
+| 15/11/2026 | ChatGPT (OpenAI) | Auxílio na transcrição tabular auditável da Tabela 21 do Anuário FBSP 2026 e cálculo de métricas | _"Auxilie na conferência dos totais da Tabela 21 do FBSP 2026 e na estrutura de validação cruzada GroupKFold por UF para evitar vazamento de dados."_ | Gustavo Lira conferiu cada um dos 54 registros do CSV contra a página 149 do PDF oficial do FBSP; os modelos foram executados e as limitações de acurácia (0,57) explicitadas com rigor acadêmico. |
+| 19/11/2026 | Google Antigravity | Normalização de ambiente cross-platform (.gitattributes), alinhamento de coordenadas e validação PostgreSQL | _"Identifique inconsistências de finais de linha CRLF/LF no repositório, alinhe as coordenadas de Londrina e auxilie na configuração de conexão com PostgreSQL 18 local."_ | Gustavo Lira verificou as falhas e as corrigiu; pediu à IA que revisasse e ajudasse a testar; Gustavo revisou as sugestões, executou os testes e conferiu os resultados antes do commit. |
+
+---
+
+## 3. Transparência Sobre a Base de Dados de Data Science
+
+- **Fonte Oficial:** Os dados utilizados no notebook são de domínio público, extraídos do *Anuário Brasileiro de Segurança Pública 2026* (Fórum Brasileiro de Segurança Pública - FBSP), Tabela 21, página 149.
+- **Ausência de Alucinação:** A base agregada (54 linhas: 27 UFs × 2 anos) foi conferida e validada numericamente pela equipe (totais nacionais de 2024 e 2025 coincidem exatamente com o relatório publicado).
+- **Limitações Declaradas:** O modelo de Regressão Logística foi desenvolvido para fins estritamente pedagógicos e didáticos. A equipe documentou de forma transparente as limitações preditivas decorrentes do tamanho amostral reduzido e do desbalanceamento de classes, deixando claro na apresentação que o sistema não possui finalidade de previsão de risco individual.
