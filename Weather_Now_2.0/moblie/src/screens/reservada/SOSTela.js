@@ -23,8 +23,8 @@ const CONTATOS_EMERGENCIA = [
 ];
 
 const COORDENADAS_DEMONSTRACAO = {
-  latitude: -23.5505,
-  longitude: -46.6333,
+  latitude: -23.3103,
+  longitude: -51.1628,
 };
 
 export default function SOSTela() {
