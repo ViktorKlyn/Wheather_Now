@@ -41,6 +41,15 @@ O uso de ferramentas de Inteligência Artificial Generativa neste projeto teve c
 
 ---
 
+### Entrega 3 — Saída Rápida (Quick Exit) e Consumo Inicial de API REST (Novembro/2026)
+
+| Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
+|---|---|---|---|
+| Google Antigravity (AGY) | Consulta técnica para implementação do botão de Saída Rápida (*quick exit*) | _"Como implementar um botão global de saída rápida no React Native que desmonte as telas protegidas e limpe o cache do Redux imediatamente?"_ | Gustavo e Victor criaram o componente `SaidaRapidaButton.js`, integraram no cabeçalho e na tela SOS, garantindo que o toque resete o estado de autenticação e redirecione para o Clima. |
+| Google Antigravity (AGY) | Apoio na estruturação das rotas de consumo REST (fase Create e Read) | _"Sugira padrão de chamadas assíncronas com fetch e tratamento de erros de rede para conectar o Expo aos endpoints GET e POST do Express."_ | A equipe desenvolveu o módulo `api.js`, mapeando as rotas da API local e integrando o carregamento dinâmico nos componentes `ContatosTela` e `OcorrenciasTela`. |
+
+---
+
 ### Entrega 4 — Refinamento, Integração e Validação Final (Novembro/2026)
 
 | Data | Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
