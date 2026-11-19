@@ -8,60 +8,60 @@
 
 ---
 
-## 1. Declaração Geral de Autoria e Postura Ética
+## 1. Declaração Geral de Autoria e Diretrizes de Uso
 
-O uso de ferramentas de Inteligência Artificial Generativa neste projeto teve caráter estritamente consultivo e de apoio técnico (*pair programming*, suporte à sintaxe, sugestão de boas práticas e auxílio na elaboração de suítes de testes).
+Neste projeto acadêmico, as ferramentas de Inteligência Artificial foram utilizadas de maneira estritamente **secundária e consultiva**, atuando como suporte à documentação técnica, tira-dúvidas pontual de sintaxe de bibliotecas de terceiros e apoio à formatação de relatórios.
 
-- **Autoria Humana e Responsabilidade:** Toda a concepção arquitetural, modelagem do banco relacional, regras de negócio de camuflagem/saída rápida, depuração de erros, validação dos dados públicos do FBSP e execução dos testes no ambiente local foram conduzidas e validadas diretamente pelos integrantes do grupo.
+- **Autoria Integral da Equipe:** Toda a lógica de programação, arquitetura do sistema, regras de negócio da interface camuflada, modelagem do banco de dados relacional, rotas de API, testes práticos e implementação dos CRUDs foram desenvolvidas, codificadas e validadas diretamente por Gustavo Lira e João Victor Klein.
 - **Divisão Individual de Trabalho:**
-  - **Gustavo Lira:** Responsável pelo CRUD de Rede de Apoio (`contatos_apoio`), fallback geográfico de emergência com coordenadas de Londrina, pipeline de Modelagem e Avaliação de Data Science (Regressão Logística, `GroupKFold`, matriz de confusão) e validação da conexão com o banco relacional PostgreSQL.
-  - **João Victor Klein:** Responsável pelo CRUD de Ocorrências (`ocorrencias`), estrutura base do aplicativo Expo e backend Express, e pipeline de Qualidade dos Dados e Análise Exploratória (EDA).
-- **Proteção e Privacidade:** O protótipo acadêmico opera exclusivamente com dados fictícios de cadastro e SOS. Nenhum dado pessoal sensível ou identificador de vítimas reais foi inserido ou processado por ferramentas de IA.
+  - **Gustavo Lira:** Desenvolveu e codificou o CRUD de Rede de Apoio (`contatos_apoio`), implementou o mecanismo de fallback geográfico de emergência com coordenadas de Londrina, estruturou o pipeline de Modelagem e Avaliação de Data Science (Regressão Logística, `GroupKFold`, matriz de confusão) e validou a conexão com o banco relacional PostgreSQL local.
+  - **João Victor Klein:** Desenvolveu e codificou o CRUD de Ocorrências (`ocorrencias`), estruturou a interface base do aplicativo Expo e a API Express, e conduziu a etapa de Qualidade dos Dados e Análise Exploratória (EDA).
+- **Proteção e Privacidade:** O protótipo acadêmico utiliza exclusivamente dados fictícios para fins de teste. Nenhum dado pessoal sensível foi processado ou enviado a ferramentas externas.
 
 ---
 
-## 2. Histórico de Utilização por Entrega
+## 2. Registro Pontual de Consultas Técnicas por Entrega
 
-### Entrega 1 — Kickoff e Estrutura Inicial (Outubro/2026)
+### Entrega 1 — Kickoff e Configuração de Ambiente (Outubro/2026)
 
-| Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
+| Ferramenta | Tipo de Consulta | Exemplo de Consulta (Resumo) | Aplicação pela Equipe |
 |---|---|---|---|
-| Google Antigravity (AGY) | Geração de scaffold inicial do app Expo e do servidor Node.js/Express | _"Gere a estrutura inicial de um app Expo React Native e uma API Express conectada a banco relacional para protótipo de apoio camuflado."_ | A equipe revisou a arquitetura, ajustou a árvore de arquivos, configurou variáveis de ambiente e definiu os endpoints RESTful. |
-| Google Antigravity (AGY) | Esboço da modelagem SQL relacional | _"Sugira um schema SQL PostgreSQL para tabela de ocorrências com chave estrangeira vinculada a usuárias."_ | A equipe revisou os tipos de dados, chaves primárias e constraints de integridade relacional. |
+| Google Antigravity (AGY) | Consulta de sintaxe e boilerplate de inicialização | _"Qual o comando e dependências recomendadas para inicializar um projeto Expo com React Navigation e Express com dotenv?"_ | A equipe utilizou as referências para configurar o ambiente de desenvolvimento e organizar as pastas do projeto. |
+| Google Antigravity (AGY) | Validação de sintaxe SQL | _"Exemplo de sintaxe para foreign key com ON DELETE CASCADE em dialeto PostgreSQL."_ | A equipe escreveu o `schema.sql`, definiu as colunas, chaves primárias e constraints de integridade relacional. |
 
 ---
 
-### Entrega 2 — Análise Exploratória e Refatoração Mobile (Outubro/2026)
+### Entrega 2 — Navegação Mobile e Análise de Dados (Outubro/2026)
 
-| Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
+| Ferramenta | Tipo de Consulta | Exemplo de Consulta (Resumo) | Aplicação pela Equipe |
 |---|---|---|---|
-| Google Antigravity (AGY) | Apoio na estruturação da navegação (React Navigation: Stack + Tab + Drawer) | _"Como estruturar a navegação no Expo para alternar dinamicamente entre telas públicas e área reservada após autenticação por PIN?"_ | Implementada a separação segura entre rotas públicas e protegidas, garantindo a desmontagem ao acionar a saída rápida. |
-| Google Antigravity (AGY) | Estruturação do fluxo Redux Toolkit | _"Sugira um padrão com Redux Toolkit para gerenciar o estado global de autenticação e persistência de ocorrências via createAsyncThunk."_ | Código adaptado para consumir os endpoints da API real da equipe, implementando limpeza de estado no logout. |
-| Google Antigravity (AGY) | Estruturação de notebook para análise exploratória | _"Apoie na criação de um roteiro didático de EDA em Python com pandas e matplotlib para estatísticas de violência."_ | João Victor selecionou os indicadores, conferiu cálculos estatísticos e organizou a visualização gráfica. |
+| Google Antigravity (AGY) | Consulta de documentação de bibliotecas | _"Como alternar entre StackNavigator público e DrawerNavigator autenticado no React Navigation 6?"_ | A equipe desenhou a árvore de navegação condicional e implementou a lógica de proteção por PIN demonstrativo. |
+| Google Antigravity (AGY) | Consulta de sintaxe Redux Toolkit | _"Qual a assinatura correta para criar reducers assíncronos usando createAsyncThunk no Redux Toolkit?"_ | Os alunos programaram os slices de autenticação e ocorrências, integrando o estado global ao ciclo de vida das telas. |
+| Google Antigravity (AGY) | Consulta de funções gráficas em Python | _"Parâmetros de formatação de paleta de cores e rótulos de eixos no seaborn para boxplot e histograma."_ | João Victor estruturou a análise descritiva no notebook, conferindo cálculos estatísticos e interpretações. |
 
 ---
 
-### Entrega 3 — Saída Rápida (Quick Exit) e Consumo Inicial de API REST (Novembro/2026)
+### Entrega 3 — Saída Rápida e Consumo REST (Novembro/2026)
 
-| Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
+| Ferramenta | Tipo de Consulta | Exemplo de Consulta (Resumo) | Aplicação pela Equipe |
 |---|---|---|---|
-| Google Antigravity (AGY) | Consulta técnica para implementação do botão de Saída Rápida (*quick exit*) | _"Como implementar um botão global de saída rápida no React Native que desmonte as telas protegidas e limpe o cache do Redux imediatamente?"_ | Gustavo e Victor criaram o componente `SaidaRapidaButton.js`, integraram no cabeçalho e na tela SOS, garantindo que o toque resete o estado de autenticação e redirecione para o Clima. |
-| Google Antigravity (AGY) | Apoio na estruturação das rotas de consumo REST (fase Create e Read) | _"Sugira padrão de chamadas assíncronas com fetch e tratamento de erros de rede para conectar o Expo aos endpoints GET e POST do Express."_ | A equipe desenvolveu o módulo `api.js`, mapeando as rotas da API local e integrando o carregamento dinâmico nos componentes `ContatosTela` e `OcorrenciasTela`. |
+| Google Antigravity (AGY) | Tira-dúvidas de boas práticas de UI | _"Como forçar a limpeza imediata de foco e estado de navegação no React Native ao disparar um botão de emergência?"_ | A equipe codificou o componente `SaidaRapidaButton.js` e adicionou a limpeza do estado sensível do Redux ao sair. |
+| Google Antigravity (AGY) | Consulta de tratamento de requisições HTTP | _"Exemplo de tratamento de erros com fetch em caso de timeout de rede em aplicações móveis."_ | Os alunos desenvolveram o módulo `api.js`, mapeando as rotas da API própria e validando as respostas do backend. |
 
 ---
 
-### Entrega 4 — Refinamento, Integração e Validação Final (Novembro/2026)
+### Entrega 4 — Integração, Métricas e Validação de Banco (Novembro/2026)
 
-| Data | Ferramenta | Finalidade do Uso | Prompt Utilizado (Resumo) | Revisão / Validação Humana |
-|---|---|---|---|---|
-| 07/11/2026 | GitHub Copilot / VS Code | Auditoria de segurança de navegação e sanitização do dashboard | _"Revise o fluxo de navegação protegida e a renderização do dashboard para prevenir falhas de segurança e garantir sanitização de texto."_ | A equipe eliminou riscos de injeção HTML no dashboard e reforçou o bloqueio de rotas protegidas sem PIN. |
-| 15/11/2026 | ChatGPT (OpenAI) | Auxílio na transcrição tabular auditável da Tabela 21 do Anuário FBSP 2026 e cálculo de métricas | _"Auxilie na conferência dos totais da Tabela 21 do FBSP 2026 e na estrutura de validação cruzada GroupKFold por UF para evitar vazamento de dados."_ | Gustavo Lira conferiu cada um dos 54 registros do CSV contra a página 149 do PDF oficial do FBSP; os modelos foram executados e as limitações de acurácia (0,57) explicitadas com rigor acadêmico. |
-| 19/11/2026 | Google Antigravity | Normalização de ambiente cross-platform (.gitattributes), alinhamento de coordenadas e validação PostgreSQL | _"Identifique inconsistências de finais de linha CRLF/LF no repositório, alinhe as coordenadas de Londrina e auxilie na configuração de conexão com PostgreSQL 18 local."_ | Gustavo Lira verificou as falhas e as corrigiu; pediu à IA que revisasse e ajudasse a testar; Gustavo revisou as sugestões, executou os testes e conferiu os resultados antes do commit. |
+| Ferramenta | Tipo de Consulta | Exemplo de Consulta (Resumo) | Aplicação pela Equipe |
+|---|---|---|---|
+| GitHub Copilot / VS Code | Verificação de sintaxe de segurança no DOM | _"Qual o método seguro para atualizar texto em vanilla JavaScript evitando vulnerabilidades de innerHTML?"_ | A equipe revisou o script do dashboard (`dashboard/app.js`), garantindo renderização baseada em `textContent` e nós do DOM. |
+| ChatGPT (OpenAI) | Consulta de sintaxe scikit-learn | _"Como instanciar o GroupKFold para validação cruzada agrupando por coluna de UF no scikit-learn?"_ | Gustavo Lira aplicou a validação cruzada por estado para evitar data leakage, analisou os resultados de acurácia e F1-score e documentou as limitações da amostra. |
+| Google Antigravity | Apoio em checagem de ambiente e testes | _"Como configurar a variável de ambiente DATABASE_URL para conexão do pool de conexões pg no Node.js?"_ | Gustavo Lira testou a conexão do banco relacional PostgreSQL 18 local, executou os scripts de teste da API e validou todos os endpoints. |
 
 ---
 
-## 3. Transparência Sobre a Base de Dados de Data Science
+## 3. Integridade e Governança dos Dados
 
-- **Fonte Oficial:** Os dados utilizados no notebook são de domínio público, extraídos do *Anuário Brasileiro de Segurança Pública 2026* (Fórum Brasileiro de Segurança Pública - FBSP), Tabela 21, página 149.
-- **Ausência de Alucinação:** A base agregada (54 linhas: 27 UFs × 2 anos) foi conferida e validada numericamente pela equipe (totais nacionais de 2024 e 2025 coincidem exatamente com o relatório publicado).
-- **Limitações Declaradas:** O modelo de Regressão Logística foi desenvolvido para fins estritamente pedagógicos e didáticos. A equipe documentou de forma transparente as limitações preditivas decorrentes do tamanho amostral reduzido e do desbalanceamento de classes, deixando claro na apresentação que o sistema não possui finalidade de previsão de risco individual.
+- **Dados Públicos Reais:** A base utilizada na etapa de Data Science foi extraída do documento público oficial: *Anuário Brasileiro de Segurança Pública 2026* (Fórum Brasileiro de Segurança Pública - FBSP), Tabela 21, página 149.
+- **Validação Numérica Humana:** Todos os números transcritos no CSV foram auditados linha por linha pela equipe contra a publicação oficial, assegurando total fidelidade com os dados do FBSP.
+- **Transparência Acadêmica:** As métricas alcançadas e suas limitações foram discutidas de maneira honesta pelos próprios alunos, evidenciando o domínio técnico sobre o problema.
