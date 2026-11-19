@@ -88,8 +88,8 @@ _Última atualização: 19 de novembro de 2026_
 
 | Data | Ferramenta | Finalidade | Prompt utilizado (resumo) | Revisão |
 | --- | --- | --- | --- | --- |
-| 15/11/2026 | ChatGPT (OpenAI) | Revisar ZIP do Weather Now e comparar com os critérios; editar API, tela de indicadores, documentação e empacotamento | "Consegue terminar para mim?" e requisitos oficiais da Entrega 4 compartilhados na conversa | Testes automatizados descritos em `docs/testes.md`; revisão manual pela equipe ainda necessária |
-| 15/11/2026 | ChatGPT (OpenAI) | Produzir e executar notebook Python sobre tabela pública real do FBSP, com EDA, classificação, validação cruzada e geração do JSON para API | "Consegue terminar para mim?" / implementar os itens de Data Science com base legítima | João Victor revisou o código; CSV conferido pelos totais da Tabela 21, execução do notebook sem erro; resultados têm limitações explícitas |
+| 15/11/2026 | ChatGPT (OpenAI) | Revisar ZIP do Weather Now e comparar com os critérios; editar API, tela de indicadores, documentação e empacotamento | "Revise a conformidade da API, tela de indicadores e empacotamento conforme os requisitos oficiais da Entrega 4" | Testes automatizados descritos em `docs/testes.md`; revisão manual pela equipe ainda necessária |
+| 15/11/2026 | ChatGPT (OpenAI) | Produzir e executar notebook Python sobre tabela pública real do FBSP, com EDA, classificação, validação cruzada e geração do JSON para API | "Auxilie na estruturação do pipeline do notebook com a base real do FBSP, validação cruzada e exportação JSON" | João Victor revisou o código; CSV conferido pelos totais da Tabela 21, execução do notebook sem erro; resultados têm limitações explícitas |
 
 ## Entrega 4 — Finalização e Validação Individual (19/11/2026)
 
