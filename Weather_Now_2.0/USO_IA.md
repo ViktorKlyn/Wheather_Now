@@ -1,67 +1,108 @@
-# USO_IA.md — Registro de Uso de Ferramentas de Inteligência Artificial
+# USO_IA.md — Registro de Uso de Ferramentas de IA
 
-> **Documento Obrigatório do Projeto Integrador — Seção 7 do Documento Orientador**  
-> **Curso:** Análise e Desenvolvimento de Sistemas — Universidade Positivo (Campus Londrina)  
-> **Projeto:** Weather Now 2.0 (Aplicativo Camuflado de Previsão do Tempo e Apoio Informativo)  
-> **Integrantes:** Gustavo Lira e João Victor Klein  
-> **Data de Atualização Final:** 19 de novembro de 2026  
+> Arquivo obrigatório do Projeto Integrador (Seção 7 do Documento Orientador).  
+> Todas as ferramentas de IA utilizadas pelo grupo e os prompts testados devem ser registrados aqui.
 
 ---
 
-## 1. Declaração Geral de Autoria e Diretrizes de Uso
+## Divisão do trabalho e defesa individual (Entrega 4)
 
-Neste projeto acadêmico, as ferramentas de Inteligência Artificial foram utilizadas de maneira estritamente **secundária e consultiva**, atuando como suporte à documentação técnica, tira-dúvidas pontual de sintaxe de bibliotecas de terceiros e apoio à formatação de relatórios.
+> Fonte: `docs/matriz-responsabilidades.md` (confirmada pela equipe em 19/11/2026) e histórico de commits do GitHub.
+> Conforme o Documento Orientador, qualquer integrante pode ser questionado sobre qualquer parte do sistema, inclusive o que foi feito com ajuda de IA.
 
-- **Autoria Integral da Equipe:** Toda a lógica de programação, arquitetura do sistema, regras de negócio da interface camuflada, modelagem do banco de dados relacional, rotas de API, testes práticos e implementação dos CRUDs foram desenvolvidas, codificadas e validadas diretamente por Gustavo Lira e João Victor Klein.
-- **Divisão Individual de Trabalho:**
-  - **Gustavo Lira:** Desenvolveu e codificou o CRUD de Rede de Apoio (`contatos_apoio`), implementou o mecanismo de fallback geográfico de emergência com coordenadas de Londrina, estruturou o pipeline de Modelagem e Avaliação de Data Science (Regressão Logística, `GroupKFold`, matriz de confusão) e validou a conexão com o banco relacional PostgreSQL local.
-  - **João Victor Klein:** Desenvolveu e codificou o CRUD de Ocorrências (`ocorrencias`), estruturou a interface base do aplicativo Expo e a API Express, e conduziu a etapa de Qualidade dos Dados e Análise Exploratória (EDA).
-- **Proteção e Privacidade:** O protótipo acadêmico utiliza exclusivamente dados fictícios para fins de teste. Nenhum dado pessoal sensível foi processado ou enviado a ferramentas externas.
+| Integrante | GitHub | CRUD que defende | Etapa de Data Science que defende | Outras partes que apresenta |
+| --- | --- | --- | --- | --- |
+| João Victor Klein (Victor) | `ViktorKlyn` | **Ocorrências**: tabela `ocorrencias`, model, controller, rotas, telas `OcorrenciasTela` e `FormularioTela` | **Qualidade dos dados e EDA**: limpeza, análise exploratória e gráficos descritivos | Back-end e estrutura inicial do projeto (API Express, `schema.sql`); SOS simulado e testes da API |
+| Gustavo Lira | `gustavoliradeoliveira` | **Rede de Apoio**: tabela `contatos_apoio`, model, controller, rotas, telas `ContatosTela` e `FormularioContatoTela` | **Modelagem e avaliação**: regressão logística, GroupKFold, métricas e matriz de confusão | Front-end e correções finais de integração: `.gitattributes`, coordenadas de Londrina (SOS e front web), rótulos de status do dashboard, validação com PostgreSQL 18 e matriz de responsabilidades |
 
----
+**Partes compartilhadas (os dois explicam):** disfarce de clima com PIN e saída rápida, tela SOS e dashboard da delegacia, tabela `usuarios` e relacionamentos (`usuario_id`), indicador de Data Science exibido no app (com aviso de estimativa acadêmica).
 
-## 2. Registro Pontual de Consultas Técnicas por Entrega
+### Evidência nos commits (estado em 19/11/2026)
 
-### Entrega 1 — Kickoff e Configuração de Ambiente (Outubro/2026)
+| Autor | Commits | O que entregou |
+| --- | --- | --- |
+| Victor (`ViktorKlyn`) | 2 | `0de1042` (14/10, branch `master`): criação das telas e dados iniciais gerados por IA. `ad998fa` (18/11, `main`): SOS simulado, dados públicos para Data Science, teste de API e teste no Expo. |
+| Gustavo (`gustavoliradeoliveira`) | 6 (todos em 19/11) | `f6688bc` `.gitattributes`; `d85afb2` coordenadas de Londrina no SOS; `792aa74` matriz de responsabilidades e `USO_IA.md`; `56038d0` coordenadas de Londrina no front web; `ccb6cdc` rótulos amigáveis de status no dashboard; `e78c565` registro da validação com PostgreSQL 18. |
 
-| Ferramenta | Tipo de Consulta | Exemplo de Consulta (Resumo) | Aplicação pela Equipe |
-|---|---|---|---|
-| Google Antigravity (AGY) | Consulta de sintaxe e boilerplate de inicialização | _"Qual o comando e dependências recomendadas para inicializar um projeto Expo com React Navigation e Express com dotenv?"_ | A equipe utilizou as referências para configurar o ambiente de desenvolvimento e organizar as pastas do projeto. |
-| Google Antigravity (AGY) | Validação de sintaxe SQL | _"Exemplo de sintaxe para foreign key com ON DELETE CASCADE em dialeto PostgreSQL."_ | A equipe escreveu o `schema.sql`, definiu as colunas, chaves primárias e constraints de integridade relacional. |
+**Nota de autoria:** O Gustavo escreveu o CRUD de Rede de Apoio (model, controller, rotas e telas) e a modelagem do notebook. O código entrou no repositório pelos commits do Victor porque o celular do Gustavo estava quebrado e ele ficou sem acesso às plataformas da escola, já que o Microsoft Authenticator estava somente nesse celular. Sem esse acesso, ele não conseguia pegar nem acompanhar as diretrizes das entregas do projeto. Os commits feitos pelo Gustavo com a própria conta estão listados na tabela de evidências acima.
 
----
+### Quem usou cada ferramenta de IA
 
-### Entrega 2 — Navegação Mobile e Análise de Dados (Outubro/2026)
-
-| Ferramenta | Tipo de Consulta | Exemplo de Consulta (Resumo) | Aplicação pela Equipe |
-|---|---|---|---|
-| Google Antigravity (AGY) | Consulta de documentação de bibliotecas | _"Como alternar entre StackNavigator público e DrawerNavigator autenticado no React Navigation 6?"_ | A equipe desenhou a árvore de navegação condicional e implementou a lógica de proteção por PIN demonstrativo. |
-| Google Antigravity (AGY) | Consulta de sintaxe Redux Toolkit | _"Qual a assinatura correta para criar reducers assíncronos usando createAsyncThunk no Redux Toolkit?"_ | Os alunos programaram os slices de autenticação e ocorrências, integrando o estado global ao ciclo de vida das telas. |
-| Google Antigravity (AGY) | Consulta de funções gráficas em Python | _"Parâmetros de formatação de paleta de cores e rótulos de eixos no seaborn para boxplot e histograma."_ | João Victor estruturou a análise descritiva no notebook, conferindo cálculos estatísticos e interpretações. |
-
----
-
-### Entrega 3 — Saída Rápida e Consumo REST (Novembro/2026)
-
-| Ferramenta | Tipo de Consulta | Exemplo de Consulta (Resumo) | Aplicação pela Equipe |
-|---|---|---|---|
-| Google Antigravity (AGY) | Tira-dúvidas de boas práticas de UI | _"Como forçar a limpeza imediata de foco e estado de navegação no React Native ao disparar um botão de emergência?"_ | A equipe codificou o componente `SaidaRapidaButton.js` e adicionou a limpeza do estado sensível do Redux ao sair. |
-| Google Antigravity (AGY) | Consulta de tratamento de requisições HTTP | _"Exemplo de tratamento de erros com fetch em caso de timeout de rede em aplicações móveis."_ | Os alunos desenvolveram o módulo `api.js`, mapeando as rotas da API própria e validando as respostas do backend. |
+| Data | Ferramenta | Quem usou | O que a IA fez | O que o integrante fez (revisão e teste) |
+| --- | --- | --- | --- | --- |
+| Out/2026 (Entregas 1 e 2) | Google Antigravity (AGY) | João Victor Klein | Estrutura inicial do app e da API, schema, refatoração de navegação e Redux, notebook de EDA demonstrativo, tela SOS (detalhes nas tabelas abaixo) | João Victor revisou o código e montou a estrutura inicial do projeto |
+| 07/11/2026 | Copilot SDK no VS Code | João Victor Klein | Revisão de navegação protegida, SOS com localização, PostgreSQL, usuário demo, dashboard, CRUDs e documentação | João Victor revisou o código; validações registradas em `CHECKLIST_ENTREGA.md` |
+| 15/11/2026 | ChatGPT (OpenAI) | João Victor Klein | Revisão do ZIP, API, tela de indicadores, empacotamento e notebook com a Tabela 21 do FBSP | João Victor revisou o código; CSV conferido pelos totais da Tabela 21; notebook executado sem erro; limitações explícitas |
+| 19/11/2026 (manhã) | Google Antigravity (modelos Gemini e Claude Opus) | Gustavo Lira | `.gitattributes`, coordenadas do SOS, matriz de papéis e este registro | Gustavo verificou as falhas e as corrigiu; pediu à IA que revisasse e ajudasse a testar; revisou as sugestões, executou os testes e conferiu os resultados antes de cada commit (`f6688bc`, `d85afb2`, `792aa74`) |
+| 19/11/2026 (tarde) | Google Antigravity (modelos Gemini e Claude Opus) | Gustavo Lira | Coordenadas do front web, rótulos de status do dashboard e validação com PostgreSQL 18 | Gustavo verificou as falhas, as corrigiu, revisou e testou o resultado (`56038d0`, `ccb6cdc`, `e78c565`) |
+| 19/11/2026 | Claude (Anthropic), pelo claude.ai (modelo Claude Opus, versão mais recente disponível) | Gustavo Lira | Análise do repositório frente ao Documento Orientador, organização do quadro Kanban no Trello, PDF do Kanban, zip do projeto Expo, conferência de testes (`npm test`, build do front web, bundle do Expo, execução do notebook) e rascunho deste registro | Gustavo conferiu os resultados no GitHub e decidiu o que aplicar. O Claude não alterou o código do projeto. |
 
 ---
 
-### Entrega 4 — Integração, Métricas e Validação de Banco (Novembro/2026)
+## Entrega 1 — Kickoff e Estrutura Inicial
 
-| Ferramenta | Tipo de Consulta | Exemplo de Consulta (Resumo) | Aplicação pela Equipe |
-|---|---|---|---|
-| GitHub Copilot / VS Code | Verificação de sintaxe de segurança no DOM | _"Qual o método seguro para atualizar texto em vanilla JavaScript evitando vulnerabilidades de innerHTML?"_ | A equipe revisou o script do dashboard (`dashboard/app.js`), garantindo renderização baseada em `textContent` e nós do DOM. |
-| ChatGPT (OpenAI) | Consulta de sintaxe scikit-learn | _"Como instanciar o GroupKFold para validação cruzada agrupando por coluna de UF no scikit-learn?"_ | Gustavo Lira aplicou a validação cruzada por estado para evitar data leakage, analisou os resultados de acurácia e F1-score e documentou as limitações da amostra. |
-| Google Antigravity | Apoio em checagem de ambiente e testes | _"Como configurar a variável de ambiente DATABASE_URL para conexão do pool de conexões pg no Node.js?"_ | Gustavo Lira testou a conexão do banco relacional PostgreSQL 18 local, executou os scripts de teste da API e validou todos os endpoints. |
+| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) |
+|------|-----------|-----------|--------------------------|
+| Out/2026 | Google Antigravity (AGY) | Estrutura inicial do app Expo + backend Express | _"Crie um app Expo React Native de previsão do tempo que seja disfarce para um app de apoio a mulheres em situação de violência. Deve ter tela de clima, PIN de 4 dígitos e área reservada com CRUD de ocorrências conectado a uma API Express + PostgreSQL."_ |
+| Out/2026 | Google Antigravity (AGY) | Geração do schema SQL inicial | _"Crie o schema PostgreSQL para uma tabela de ocorrências com id, data, descricao e usuario_id."_ |
+| Out/2026 | Google Antigravity (AGY) | Estrutura de rotas Express | _"Gere um controller e rotas Express para CRUD completo de ocorrências com tratamento de erros."_ |
 
 ---
 
-## 3. Integridade e Governança dos Dados
+## Entrega 2 — Análise Exploratória e Refatoração Mobile
 
-- **Dados Públicos Reais:** A base utilizada na etapa de Data Science foi extraída do documento público oficial: *Anuário Brasileiro de Segurança Pública 2026* (Fórum Brasileiro de Segurança Pública - FBSP), Tabela 21, página 149.
-- **Validação Numérica Humana:** Todos os números transcritos no CSV foram auditados linha por linha pela equipe contra a publicação oficial, assegurando total fidelidade com os dados do FBSP.
-- **Transparência Acadêmica:** As métricas alcançadas e suas limitações foram discutidas de maneira honesta pelos próprios alunos, evidenciando o domínio técnico sobre o problema.
+| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) |
+|------|-----------|-----------|--------------------------|
+| Out/2026 | Google Antigravity (AGY) | Refatoração do Mobile com react-navigation (Stack + Tab + Drawer) | _"Refatore o App.js monolítico do Expo para usar react-navigation com Stack raiz, Tab (Ocorrências + SOS) e Drawer (menu + sobre). Adicione Redux Toolkit com slices para auth (PIN) e ocorrências (CRUD assíncrono com createAsyncThunk)."_ |
+| Out/2026 | Google Antigravity (AGY) | Notebook de Data Science completo | _"Crie um notebook Jupyter completo de análise exploratória para o Painel Ligue 180 cobrindo: ficha de governança, dicionário de dados, diagnóstico de qualidade em 5 dimensões, pipeline de tratamento documentado com tabela antes×depois, EDA com medidas descritivas, histograma, boxplot, frequências, série temporal, heatmap e 3 perguntas respondidas com números."_ |
+| Out/2026 | Google Antigravity (AGY) | Geração de dados fictícios para demonstração do notebook | _"Gere um DataFrame pandas demo que simule o Painel Ligue 180 com colunas ano, mes, uf, tipo_violencia e quantidade_atendimentos, incluindo ausentes reais, ausentes disfarçados (9999, -1), duplicatas e outliers para fins de demonstração do pipeline."_ |
+| Out/2026 | Google Antigravity (AGY) | Tela SOS com discagem direta | _"Crie uma tela React Native com lista de contatos de emergência (Ligue 180, SAMU, Polícia, Bombeiros, Disque 100) onde cada item abre o discador do celular via Linking.openURL."_ |
+
+---
+
+## Correção Final — Weather Now 2.0
+
+| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) |
+|------|-----------|-----------|--------------------------|
+| 07/Nov/2026 | Assistente de IA (Copilot SDK no VS Code) | Revisar e corrigir navegação protegida, SOS com localização, PostgreSQL, usuário demo, dashboard, CRUDs e documentação | _"Analise o workspace existente, corrija os problemas apontados na auditoria, execute os testes possíveis e relate resultados e pendências sem apagar dados ou fazer commits."_ |
+
+As validações realizadas nesta correção estão registradas em
+`CHECKLIST_ENTREGA.md`; itens sem evidência não são declarados como testados.
+
+---
+
+## Observações de Uso Ético
+
+- Todos os prompts foram utilizados para **geração de código de apoio** e **estruturação de análises**, não para substituir o raciocínio analítico do grupo.
+- Os **dados fictícios** gerados para demonstração do notebook **não representam a realidade** e não foram citados como fatos.
+- **Registro histórico da Entrega 2:** a base do Ligue 180 havia sido planejada, mas não foi obtida naquela etapa. **Na Entrega 4, a base real utilizada é a Tabela 21 do Anuário FBSP 2026 (2024–2025)**, explicitada no notebook e em `data-science/README.md`.
+- Nenhum dado pessoal de vítimas foi processado ou solicitado a ferramentas de IA.
+
+---
+
+_Última atualização: 19 de novembro de 2026_
+
+---
+
+## Entrega 4 — Finalização assistida (15/11/2026)
+
+| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) | Revisão |
+| --- | --- | --- | --- | --- |
+| 15/11/2026 | ChatGPT (OpenAI) | Revisar ZIP do Weather Now e comparar com os critérios; editar API, tela de indicadores, documentação e empacotamento | "Consegue terminar para mim?" e requisitos oficiais da Entrega 4 compartilhados na conversa | Testes automatizados descritos em `docs/testes.md`; revisão manual pela equipe ainda necessária |
+| 15/11/2026 | ChatGPT (OpenAI) | Produzir e executar notebook Python sobre tabela pública real do FBSP, com EDA, classificação, validação cruzada e geração do JSON para API | "Consegue terminar para mim?" / implementar os itens de Data Science com base legítima | João Victor revisou o código; CSV conferido pelos totais da Tabela 21, execução do notebook sem erro; resultados têm limitações explícitas |
+
+## Entrega 4 — Finalização e Validação Individual (19/11/2026)
+
+| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) | Revisão |
+| --- | --- | --- | --- | --- |
+| 19/11/2026 | Google Antigravity | Normalização git (.gitattributes), correção de coordenadas de fallback SOS para Londrina, consolidação da matriz de papéis e preparação de entrega | Auditoria técnica e roteiro de correções sem quebra de compatibilidade para fechamento da Entrega 4 | Gustavo Lira verificou as falhas e as corrigiu; pediu à IA que revisasse e ajudasse a testar; Gustavo revisou as sugestões, executou os testes e conferiu os resultados antes do commit |
+
+**Transparência:** a transcrição numérica da Tabela 21 é de dado real publicado pelo FBSP, não dado fictício criado por IA. O modelo e o código do notebook foram produzidos com assistência de IA; a amostra é pequena e a acurácia limitada. A equipe deve revisar o conteúdo, declarar a divisão individual real e dominar os trechos antes da apresentação.
+
+---
+
+## Declaração da equipe
+
+- Cada integrante consegue explicar e demonstrar o CRUD e a etapa de Data Science pelos quais é responsável, e responde também sobre as partes compartilhadas.
+- Trechos gerados ou revisados com IA estão registrados nas tabelas acima, com a ferramenta, a data e quem usou.
+- O que não foi testado não é declarado como testado.
