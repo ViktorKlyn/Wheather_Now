@@ -9,6 +9,11 @@ const ultimoEl = document.getElementById("ultimo");
 const errorEl = document.getElementById("error");
 const refreshBtn = document.getElementById("refresh");
 const statusOptions = ["PENDENTE", "ATENDIDO", "IGNORADO"];
+const statusLabels = {
+  PENDENTE: "Novo",
+  ATENDIDO: "Concluído",
+  IGNORADO: "Ignorado",
+};
 const statusClasses = {
   PENDENTE: "pendente",
   ATENDIDO: "atendido",
@@ -53,7 +58,7 @@ function renderAlert(alert, isNew) {
   const statusText = displayValue(alert.status).toUpperCase();
   const status = document.createElement("span");
   status.className = `status ${statusClasses[statusText] || ""}`.trim();
-  status.textContent = statusText;
+  status.textContent = statusLabels[statusText] || statusText;
   header.append(id, status);
 
   const metadata = document.createElement("div");
@@ -77,7 +82,7 @@ function renderAlert(alert, isNew) {
   for (const optionValue of statusOptions) {
     const option = document.createElement("option");
     option.value = optionValue;
-    option.textContent = optionValue;
+    option.textContent = statusLabels[optionValue] || optionValue;
     option.selected = optionValue === statusText;
     select.appendChild(option);
   }
