@@ -2,8 +2,8 @@ const WEATHER_URL = "https://api.open-meteo.com/v1/forecast";
 const GEO_URL = "https://geocoding-api.open-meteo.com/v1/reverse";
 
 export const DEFAULT_LOCATION = {
-  latitude: -23.5505,
-  longitude: -46.6333,
+  latitude: -23.3103,
+  longitude: -51.1628,
   city: "Londrina",
   region: "Brasil",
 };
