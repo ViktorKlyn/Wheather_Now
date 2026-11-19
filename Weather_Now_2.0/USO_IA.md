@@ -46,7 +46,7 @@ As validações realizadas nesta correção estão registradas em
 
 ---
 
-_Última atualização: 15 de novembro de 2026_
+_Última atualização: 19 de novembro de 2026_
 
 ---
 
@@ -56,5 +56,11 @@ _Última atualização: 15 de novembro de 2026_
 | --- | --- | --- | --- | --- |
 | 15/11/2026 | ChatGPT (OpenAI) | Revisar ZIP do Weather Now e comparar com os critérios; editar API, tela de indicadores, documentação e empacotamento | "Consegue terminar para mim?" e requisitos oficiais da Entrega 4 compartilhados na conversa | Testes automatizados descritos em `docs/testes.md`; revisão manual pela equipe ainda necessária |
 | 15/11/2026 | ChatGPT (OpenAI) | Produzir e executar notebook Python sobre tabela pública real do FBSP, com EDA, classificação, validação cruzada e geração do JSON para API | "Consegue terminar para mim?" / implementar os itens de Data Science com base legítima | CSV conferido pelos totais da Tabela 21, execução do notebook sem erro; resultados têm limitações explícitas |
+
+## Entrega 4 — Finalização e Validação Individual (19/11/2026)
+
+| Data | Ferramenta | Finalidade | Prompt utilizado (resumo) | Revisão |
+| --- | --- | --- | --- | --- |
+| 19/11/2026 | Google Antigravity | Normalização git (.gitattributes), correção de coordenadas de fallback SOS para Londrina, consolidação da matriz de papéis e preparação de entrega | Auditoria técnica e roteiro de correções sem quebra de compatibilidade para fechamento da Entrega 4 | Gustavo Lira verificou as falhas e as corrigiu; pediu à IA que revisasse e ajudasse a testar; Gustavo revisou as sugestões, executou os testes e conferiu os resultados antes do commit |
 
 **Transparência:** a transcrição numérica da Tabela 21 é de dado real publicado pelo FBSP, não dado fictício criado por IA. O modelo e o código do notebook foram produzidos com assistência de IA; a amostra é pequena e a acurácia limitada. A equipe deve revisar o conteúdo, declarar a divisão individual real e dominar os trechos antes da apresentação.
