@@ -1,0 +1,270 @@
+.app-shell {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px 40px;
+}
+
+.home {
+  width: min(430px, 100%);
+  min-height: 780px;
+  padding: 28px 22px 26px;
+  border-radius: 36px;
+  color: #f6f8ff;
+  background:
+    radial-gradient(circle at 80% 0%, rgba(255, 196, 120, 0.28), transparent 42%),
+    linear-gradient(180deg, #2f5d9a 0%, #1b355c 42%, #101c30 100%);
+  box-shadow:
+    0 30px 80px rgba(3, 10, 24, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.home.night {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(120, 164, 255, 0.28), transparent 40%),
+    linear-gradient(180deg, #15213a 0%, #0c1426 100%);
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.place {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.place h1 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.place p,
+.clock {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.82rem;
+  text-transform: capitalize;
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 0 18px;
+}
+
+.temp {
+  font-size: 6.2rem;
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.temp span {
+  font-size: 3.4rem;
+  vertical-align: super;
+}
+
+.condition {
+  margin-top: 8px;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.range,
+.feels {
+  color: rgba(246, 248, 255, 0.76);
+  margin-top: 6px;
+  font-size: 0.95rem;
+}
+
+.panel,
+.metrics article {
+  background: rgba(10, 18, 34, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.panel {
+  border-radius: 22px;
+  padding: 16px 4px 14px 14px;
+  margin-top: 14px;
+}
+
+.panel-head h2 {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.68);
+  margin-bottom: 12px;
+}
+
+.hours {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  padding-right: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.hours::-webkit-scrollbar {
+  height: 4px;
+}
+
+.hours::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+}
+
+.hours li,
+.days li {
+  display: grid;
+  justify-items: center;
+}
+
+.hours li {
+  min-width: 64px;
+  gap: 8px;
+  padding: 8px 4px;
+  border-radius: 16px;
+}
+
+.hours span,
+.hours em,
+.days .rain,
+.days i {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  font-style: normal;
+}
+
+.hours strong {
+  font-size: 1rem;
+}
+
+.days {
+  display: grid;
+  gap: 8px;
+  padding-right: 12px;
+}
+
+.days li {
+  grid-template-columns: 52px 32px 42px 1fr;
+  align-items: center;
+  justify-items: start;
+  gap: 8px;
+}
+
+.day-name {
+  font-weight: 500;
+}
+
+.temps {
+  justify-self: end;
+  display: flex;
+  gap: 10px;
+}
+
+.temps i {
+  font-weight: 400;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.metrics article {
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+
+.metrics span {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.66);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.metrics strong {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.error-wrap {
+  display: grid;
+  place-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.retry {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: #f4f7ff;
+  color: #12203a;
+  cursor: pointer;
+}
+
+.pulse {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.08)
+  );
+  background-size: 200% 100%;
+  animation: shine 1.4s ease infinite;
+  border-radius: 18px;
+}
+
+.title-skel {
+  height: 42px;
+  width: 60%;
+}
+
+.hero-skel {
+  height: 210px;
+  margin: 28px 0;
+  border-radius: 28px;
+}
+
+.card-skel {
+  height: 120px;
+  margin-top: 14px;
+}
+
+.card-skel.tall {
+  height: 220px;
+}
+
+@keyframes shine {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-shell {
+    padding: 0;
+  }
+
+  .home {
+    width: 100%;
+    min-height: 100dvh;
+    border-radius: 0;
+  }
+}

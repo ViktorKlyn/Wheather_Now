@@ -1,0 +1,254 @@
+{
+  "titulo": "Indicador acadêmico por UF — 2025",
+  "fonte": "FBSP, Anuário Brasileiro de Segurança Pública 2026, Tabela 21, p. 149",
+  "fonte_url": "https://img1.wsimg.com/blobby/go/ba03c51c-1e7c-44ed-9bd1-fba715830295/Anuario%20Brasileiro%20de%20Seguran%C3%A7a%20P%C3%BAblica%20-2026.pdf",
+  "ano": 2025,
+  "aviso": "Estimativa estatística acadêmica sobre dados históricos agregados. NÃO avalia o risco individual e NÃO substitui atendimento profissional, policial ou jurídico.",
+  "limiar_didatico": 1.5,
+  "metodologia": "Regressão logística; previsão de categoria de taxa histórica por UF com dados agregados; treino final para exibição após avaliação em UFs separadas.",
+  "indicadores": [
+    {
+      "uf": "Acre",
+      "ano": 2025,
+      "homicidios_mulheres": 21,
+      "taxa_homicidios_mulheres": 4.8,
+      "feminicidios": 14,
+      "taxa_feminicidios_observada": 3.2,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Alagoas",
+      "ano": 2025,
+      "homicidios_mulheres": 94,
+      "taxa_homicidios_mulheres": 5.6,
+      "feminicidios": 30,
+      "taxa_feminicidios_observada": 1.8,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Amapá",
+      "ano": 2025,
+      "homicidios_mulheres": 18,
+      "taxa_homicidios_mulheres": 4.5,
+      "feminicidios": 9,
+      "taxa_feminicidios_observada": 2.2,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Amazonas",
+      "ano": 2025,
+      "homicidios_mulheres": 62,
+      "taxa_homicidios_mulheres": 2.9,
+      "feminicidios": 20,
+      "taxa_feminicidios_observada": 0.9,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Bahia",
+      "ano": 2025,
+      "homicidios_mulheres": 352,
+      "taxa_homicidios_mulheres": 4.6,
+      "feminicidios": 102,
+      "taxa_feminicidios_observada": 1.3,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Ceará",
+      "ano": 2025,
+      "homicidios_mulheres": 297,
+      "taxa_homicidios_mulheres": 6.2,
+      "feminicidios": 47,
+      "taxa_feminicidios_observada": 1.0,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Distrito Federal",
+      "ano": 2025,
+      "homicidios_mulheres": 43,
+      "taxa_homicidios_mulheres": 2.7,
+      "feminicidios": 29,
+      "taxa_feminicidios_observada": 1.9,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Espírito Santo",
+      "ano": 2025,
+      "homicidios_mulheres": 75,
+      "taxa_homicidios_mulheres": 3.6,
+      "feminicidios": 35,
+      "taxa_feminicidios_observada": 1.7,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Goiás",
+      "ano": 2025,
+      "homicidios_mulheres": 102,
+      "taxa_homicidios_mulheres": 2.7,
+      "feminicidios": 59,
+      "taxa_feminicidios_observada": 1.6,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Maranhão",
+      "ano": 2025,
+      "homicidios_mulheres": 132,
+      "taxa_homicidios_mulheres": 3.7,
+      "feminicidios": 51,
+      "taxa_feminicidios_observada": 1.4,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Mato Grosso",
+      "ano": 2025,
+      "homicidios_mulheres": 95,
+      "taxa_homicidios_mulheres": 4.9,
+      "feminicidios": 53,
+      "taxa_feminicidios_observada": 2.7,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Mato Grosso do Sul",
+      "ano": 2025,
+      "homicidios_mulheres": 70,
+      "taxa_homicidios_mulheres": 4.7,
+      "feminicidios": 39,
+      "taxa_feminicidios_observada": 2.6,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Minas Gerais",
+      "ano": 2025,
+      "homicidios_mulheres": 306,
+      "taxa_homicidios_mulheres": 2.8,
+      "feminicidios": 177,
+      "taxa_feminicidios_observada": 1.6,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Paraná",
+      "ano": 2025,
+      "homicidios_mulheres": 188,
+      "taxa_homicidios_mulheres": 3.1,
+      "feminicidios": 87,
+      "taxa_feminicidios_observada": 1.4,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Paraíba",
+      "ano": 2025,
+      "homicidios_mulheres": 76,
+      "taxa_homicidios_mulheres": 3.5,
+      "feminicidios": 36,
+      "taxa_feminicidios_observada": 1.7,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Pará",
+      "ano": 2025,
+      "homicidios_mulheres": 172,
+      "taxa_homicidios_mulheres": 4.0,
+      "feminicidios": 65,
+      "taxa_feminicidios_observada": 1.5,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Pernambuco",
+      "ano": 2025,
+      "homicidios_mulheres": 213,
+      "taxa_homicidios_mulheres": 4.3,
+      "feminicidios": 88,
+      "taxa_feminicidios_observada": 1.8,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Piauí",
+      "ano": 2025,
+      "homicidios_mulheres": 62,
+      "taxa_homicidios_mulheres": 3.6,
+      "feminicidios": 37,
+      "taxa_feminicidios_observada": 2.1,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Rio Grande do Norte",
+      "ano": 2025,
+      "homicidios_mulheres": 73,
+      "taxa_homicidios_mulheres": 4.1,
+      "feminicidios": 19,
+      "taxa_feminicidios_observada": 1.1,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Rio Grande do Sul",
+      "ano": 2025,
+      "homicidios_mulheres": 166,
+      "taxa_homicidios_mulheres": 2.9,
+      "feminicidios": 80,
+      "taxa_feminicidios_observada": 1.4,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Rio de Janeiro",
+      "ano": 2025,
+      "homicidios_mulheres": 265,
+      "taxa_homicidios_mulheres": 2.9,
+      "feminicidios": 105,
+      "taxa_feminicidios_observada": 1.2,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Rondônia",
+      "ano": 2025,
+      "homicidios_mulheres": 46,
+      "taxa_homicidios_mulheres": 5.3,
+      "feminicidios": 25,
+      "taxa_feminicidios_observada": 2.9,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Roraima",
+      "ano": 2025,
+      "homicidios_mulheres": 19,
+      "taxa_homicidios_mulheres": 5.2,
+      "feminicidios": 6,
+      "taxa_feminicidios_observada": 1.7,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    },
+    {
+      "uf": "Santa Catarina",
+      "ano": 2025,
+      "homicidios_mulheres": 85,
+      "taxa_homicidios_mulheres": 2.1,
+      "feminicidios": 53,
+      "taxa_feminicidios_observada": 1.3,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Sergipe",
+      "ano": 2025,
+      "homicidios_mulheres": 22,
+      "taxa_homicidios_mulheres": 1.8,
+      "feminicidios": 15,
+      "taxa_feminicidios_observada": 1.3,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "São Paulo",
+      "ano": 2025,
+      "homicidios_mulheres": 448,
+      "taxa_homicidios_mulheres": 1.9,
+      "feminicidios": 270,
+      "taxa_feminicidios_observada": 1.1,
+      "categoria_estimada": "Faixa histórica < 1,5"
+    },
+    {
+      "uf": "Tocantins",
+      "ano": 2025,
+      "homicidios_mulheres": 37,
+      "taxa_homicidios_mulheres": 4.7,
+      "feminicidios": 20,
+      "taxa_feminicidios_observada": 2.5,
+      "categoria_estimada": "Faixa histórica ≥ 1,5"
+    }
+  ]
+}

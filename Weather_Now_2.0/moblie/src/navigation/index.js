@@ -1,0 +1,220 @@
+// navigation/index.js — Árvore de navegação completa do aplicativo
+//
+// Estrutura:
+//   RootStack (Stack)
+//   ├── DisfarceStack (Stack)  ← tela de clima (disfarce público)
+//   │   └── ClimaTela
+//   ├── Pin (Stack)            ← tela de PIN (acesso protegido)
+//   └── Reservada (Drawer)    ← área interna, acessível após PIN correto
+//       ├── TabReservada (Tab) ← abas principais da área secreta
+//       │   ├── Ocorrencias   (Tab 1) + sub-Stack com Formulario
+//       │   └── SOS           (Tab 2)
+//       └── Sobre             (Drawer item extra)
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Text } from "react-native";
+import { useSelector } from "react-redux";
+
+import ClimaTela from "../screens/ClimaTela";
+import PinTela from "../screens/PinTela";
+import OcorrenciasTela from "../screens/reservada/OcorrenciasTela";
+import FormularioTela from "../screens/reservada/FormularioTela";
+import ContatosTela from "../screens/reservada/ContatosTela";
+import FormularioContatoTela from "../screens/reservada/FormularioContatoTela";
+import SOSTela from "../screens/reservada/SOSTela";
+import DadosTela from "../screens/reservada/DadosTela";
+import SobreTela from "../screens/reservada/SobreTela";
+import SaidaRapidaButton from "./SaidaRapidaButton";
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+
+// ── Opções visuais compartilhadas ───────────────────────────────────────────
+const screenOptions = {
+  headerStyle: { backgroundColor: "#07111f" },
+  headerTintColor: "#f4f7ff",
+  headerTitleStyle: { fontWeight: "700" },
+};
+
+const tabBarStyle = {
+  backgroundColor: "#0b1525",
+  borderTopColor: "#1d2d44",
+  paddingBottom: 8,
+  height: 56,
+};
+
+// ── Stack interno de Ocorrências (lista + formulário) ───────────────────────
+function OcorrenciasStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        ...screenOptions,
+        headerRight: () => <SaidaRapidaButton />,
+      }}
+    >
+      <Stack.Screen
+        name="Lista"
+        component={OcorrenciasTela}
+        options={{ title: "Registros" }}
+      />
+      <Stack.Screen
+        name="Formulario"
+        component={FormularioTela}
+        options={({ route }) =>
+          route.params?.ocorrencia
+            ? { title: "Editar Registro" }
+            : { title: "Novo Registro" }
+        }
+      />
+    </Stack.Navigator>
+  );
+}
+
+function ContatosStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        ...screenOptions,
+        headerRight: () => <SaidaRapidaButton />,
+      }}
+    >
+      <Stack.Screen
+        name="ListaContatos"
+        component={ContatosTela}
+        options={{ title: "Rede de Apoio" }}
+      />
+      <Stack.Screen
+        name="FormularioContato"
+        component={FormularioContatoTela}
+        options={({ route }) =>
+          route.params?.contato
+            ? { title: "Editar Contato" }
+            : { title: "Novo Contato" }
+        }
+      />
+    </Stack.Navigator>
+  );
+}
+
+// ── Tab Navigator da área reservada ────────────────────────────────────────
+function TabReservada() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle,
+        tabBarActiveTintColor: "#79e3d1",
+        tabBarInactiveTintColor: "#6b7fa0",
+        tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
+      }}
+    >
+      <Tab.Screen
+        name="OcorrenciasTab"
+        component={OcorrenciasStack}
+        options={{
+          tabBarLabel: "Registros",
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>📋</Text>,
+        }}
+      />
+      <Tab.Screen
+        name="ContatosTab"
+        component={ContatosStack}
+        options={{
+          tabBarLabel: "Rede",
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🤝</Text>,
+        }}
+      />
+      <Tab.Screen
+        name="SOS"
+        component={SOSTela}
+        options={{
+          tabBarLabel: "SOS",
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🆘</Text>,
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="DadosTab"
+        component={DadosTela}
+        options={{
+          tabBarLabel: "Dados",
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>📊</Text>,
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+// ── Drawer Navigator da área reservada ─────────────────────────────────────
+function DrawerReservada() {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        ...screenOptions,
+        drawerStyle: { backgroundColor: "#0b1525" },
+        drawerActiveTintColor: "#79e3d1",
+        drawerInactiveTintColor: "#a5b4cc",
+        drawerLabelStyle: { fontWeight: "600" },
+      }}
+    >
+      <Drawer.Screen
+        name="Inicio"
+        component={TabReservada}
+        options={{
+          title: "Área Reservada",
+          drawerLabel: "📋  Registros & SOS",
+          headerTitle: "Área Reservada",
+        }}
+      />
+      <Drawer.Screen
+        name="ContatosDrawer"
+        component={ContatosStack}
+        options={{
+          drawerLabel: "🤝 Rede de Apoio",
+          title: "Rede de Apoio",
+        }}
+      />
+      <Drawer.Screen
+        name="Sobre"
+        component={SobreTela}
+        options={{
+          drawerLabel: "ℹ️   Sobre o App",
+          title: "Sobre",
+        }}
+      />
+    </Drawer.Navigator>
+  );
+}
+
+// ── Stack raiz ──────────────────────────────────────────────────────────────
+export default function AppNavigator() {
+  const autenticado = useSelector((state) => state.auth.autenticado);
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        key={autenticado ? "autenticado" : "publico"}
+        initialRouteName={autenticado ? "Reservada" : "DisfarceStack"}
+        screenOptions={{ headerShown: false }}
+      >
+        {autenticado ? (
+          <Stack.Screen name="Reservada" component={DrawerReservada} />
+        ) : (
+          <>
+            <Stack.Screen name="DisfarceStack" component={ClimaTela} />
+            <Stack.Screen
+              name="Pin"
+              component={PinTela}
+              options={{ presentation: "modal", animation: "slide_from_bottom" }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

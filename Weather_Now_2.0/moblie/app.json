@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Weather Now",
+    "slug": "weather-now",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Permitir que o Weather Now use sua localização para registrar um alerta SOS demonstrativo."
+        }
+      ]
+    ]
+  }
+}

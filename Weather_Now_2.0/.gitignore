@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+*.local
+.env
+
+__pycache__/
+.ipynb_checkpoints/
+backend/data/
+*.db
+*.sqlite3
