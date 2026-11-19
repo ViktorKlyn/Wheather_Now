@@ -4,7 +4,9 @@
 
 - **Notebook Python:** 10 células de código executadas sem erros; 54 registros reais agregados, 27 UFs, sem ausências/duplicatas. Soma dos dados do CSV coincide com os totais do FBSP. Gráficos gravados e incluídos no `.ipynb`.
 - **Modelo:** grupo treino/teste separado por UF (20 UFs no treino, 7 em teste). Acurácia em teste **0,571** (8 acertos em 14 exemplos), sem valor operacional. F1 para a classe ≥ 1,5: **0,700**; média F1 de quatro folds de validação cruzada: **0,645**.
-- **API com PGlite em memória e Node.js:** 21 verificações HTTP passaram: `GET /`, `GET /indicadores`, listar/criar/buscar/editar/excluir ocorrências, buscar/criar/editar/excluir contatos, criar/buscar/PATCH/PUT/excluir SOS, inclusive 400 e 404. A suíte reproduzível foi adicionada em `backend/scripts/testar-api.js`, executável com `npm test` após `npm install`. As operações de banco eram reais e transacionais, apenas a instância era temporária.
+- **Banco de Dados Relacional:**
+  - **PGlite em memória:** 21 verificações HTTP passaram na suíte automatizada `npm test`.
+  - **PostgreSQL 18 Tradicional (validado em 19/11/2026):** Serviço `postgresql-x64-18` (PostgreSQL 18.3 x64) no host local na porta 5432; banco `weather_now` criado, `database/schema.sql` aplicado com sucesso (tabelas `usuarios`, `ocorrencias`, `contatos_apoio`, `alertas_sos`, índices e dados demonstrativos), e API testada respondendo requisições HTTP (`GET /contatos-apoio`) conectada ao driver `pg` via pool relacional.
 - **JavaScript da API:** arquivos de controllers/models/routes analisados por `node --check` sem erros.
 - **Mobile:** 18 fontes JavaScript/JSX analisadas sintaticamente pelo parser Babel com JSX, sem erros.
 

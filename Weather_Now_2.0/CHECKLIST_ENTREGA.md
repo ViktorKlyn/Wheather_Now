@@ -19,7 +19,7 @@ nativos quando isso não foi possível neste ambiente.
 | CRUD de ocorrências | Validado em API e Expo Web | Criar/listar/editar/excluir pela tela; API também testada com validação e busca por ID. |
 | CRUD da rede de apoio | Validado em API e Expo Web | Criar/listar/editar/excluir pela tela; API também testada com validação e busca por ID. |
 | Usuária demo e relacionamentos | Validado com PGlite em memória | Reexecução do schema idempotente; ID resolvido por `weather_now_demo`; CRUD associou registros ao mesmo usuário mesmo com ID divergente no payload. |
-| PostgreSQL tradicional | Configurado, conexão não validada | PostgreSQL é o driver padrão e consta como requisito em `docs/Entrega-2.md`. Não havia serviço/listener PostgreSQL local na porta 5432 neste ambiente. |
+| PostgreSQL tradicional | Validado em 19/11/2026 | Serviço local PostgreSQL 18.3 ativo; banco `weather_now` criado, schema executado e API conectada via driver `pg` com queries de CRUD validadas. |
 | SOS e `expo-location` | Validado no Expo Web com permissão negada | Registrou SOS com coordenadas fictícias, `localizacao_simulada=true` e mensagem informativa; não enviou alerta real. Permissão concedida e dispositivos nativos não foram testados. |
 | Dashboard e segurança de renderização | Validado no navegador | Recebeu novos alertas por atualização automática, exibiu status e localização simulada; texto contendo marcação HTML apareceu como texto, sem nós HTML injetados. |
 | Alteração de status no dashboard | Validada na API e no painel | Endpoint `PATCH /alertas/:id/status` e atualização manual pelo painel verificados. |
