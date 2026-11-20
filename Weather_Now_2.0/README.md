@@ -73,6 +73,144 @@ O IP acima é **exemplo**, não endereço verificado. Reinicie o Expo após alte
 5. Em **SOS**, confirme um alerta acadêmico de teste; verifique sua chegada ao dashboard.
 6. Toque em **Sair** para voltar à fachada; os slices de Redux são esvaziados no logout. A API mantém os registros fictícios no banco para a próxima sessão.
 
+### Celular em outra rede (túnel Cloudflare)
+
+No Expo Go em um aparelho físico, `http://localhost:3001` aponta para o **próprio celular**, não para o computador onde a API roda. Por isso aparece erro do tipo `Failed to connect to localhost/127.0.0.1:3001`.
+
+Há dois cenários distintos:
+
+| Situação | O que usar |
+| --- | --- |
+| Celular e PC na **mesma Wi-Fi** | IPv4 da máquina no `.env` (ex.: `http://192.168.x.x:3001`) — ver acima |
+| Celular em **outra rede** (4G, Wi-Fi diferente, etc.) | Túnel Cloudflare publicando a API (e, se preciso, o Metro) em URL HTTPS temporária |
+
+Fluxo com túnel (dois túneis independentes):
+
+```text
+Expo Go (outra rede)
+  ├─→ túnel Metro (HTTPS)  → Metro/Expo na máquina (:8081)
+  └─→ túnel API  (HTTPS)   → backend Express (:3001)
+```
+
+#### O que vai para o Git e o que precisa refazer em cada máquina
+
+**Pode (e deve) ir para o Git:**
+
+- Estas instruções no `README.md`
+- O modelo `moblie/.env.example` com **placeholders** (nunca com URL viva)
+- O código que lê `EXPO_PUBLIC_API_URL` em `moblie/src/api.js`
+
+**Não entra no Git / não “viaja” pronto entre máquinas:**
+
+- `moblie/.env` — já está no `.gitignore`; cada pessoa copia do example e preenche
+- Qualquer URL `*.trycloudflare.com` — **muda toda vez** que o túnel rápido é recriado ou reiniciado
+- O processo `cloudflared`, credenciais geradas em `/tmp`, e o binário instalado na máquina
+
+**Conclusão:** ao mudar de computador, ou ao derrubar e subir de novo o túnel, é obrigatório baixar/usar o `cloudflared`, subir a API, abrir o(s) túnel(is), colar a URL **nova** no `.env` local e reiniciar o Expo com cache limpo (`-c`). O repositório guarda só o *como fazer*, não um túnel permanente.
+
+#### Pré-requisitos
+
+1. API rodando: `cd backend && npm start` (deve responder em `http://localhost:3001`).
+2. Binário `cloudflared` (Linux amd64). Se ainda não estiver no `PATH`:
+
+```bash
+curl -fsSL -o ./cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+chmod +x ./cloudflared
+```
+
+Em outras plataformas, use o instalador oficial da Cloudflare para o seu sistema.
+
+#### 1) Túnel da API (porta 3001)
+
+Em um terminal separado, com a API já ligada:
+
+```bash
+./cloudflared tunnel --url http://localhost:3001
+```
+
+Na saída aparece uma URL do tipo `https://….trycloudflare.com`. Copie-a **sem barra no final** e grave em `moblie/.env` (arquivo local, não versionado):
+
+```env
+EXPO_PUBLIC_API_URL=https://SEU-SUBDOMINIO.trycloudflare.com
+```
+
+Confira se o túnel alcança a API:
+
+```bash
+curl https://SEU-SUBDOMINIO.trycloudflare.com/ocorrencias
+```
+
+#### 2) Expo e túnel do Metro (porta 8081)
+
+`EXPO_PUBLIC_*` é embutido no bundle na subida do Metro. Depois de alterar o `.env`, reinicie com cache limpo:
+
+```bash
+cd moblie
+npx expo start -c
+```
+
+Se o celular **não** estiver na mesma Wi-Fi do PC, o QR/`exp://192.168…` do Metro também não abre. O comando `npx expo start --tunnel` pode exigir login na conta Expo ou falhar no ngrok. O método que funcionou neste ambiente foi um **segundo** túnel Cloudflare para a porta 8081:
+
+```bash
+# terminal A — túnel do Metro (deixe rodando)
+./cloudflared tunnel --url http://localhost:8081
+```
+
+```bash
+# terminal B — Expo apontando o packager para a URL HTTPS do Metro
+cd moblie
+export EXPO_PACKAGER_PROXY_URL=https://SEU-SUBDOMINIO-METRO.trycloudflare.com
+npx expo start -c --lan
+```
+
+No Expo Go, use **Enter URL** e cole a URL HTTPS do Metro (`https://SEU-SUBDOMINIO-METRO.trycloudflare.com`).
+
+Ordem prática recomendada: (1) API, (2) túnel da API + `.env`, (3) túnel do Metro, (4) `expo start` com `EXPO_PACKAGER_PROXY_URL`.
+
+#### Contorno se `cloudflared tunnel --url` der timeout
+
+Neste ambiente o cliente `cloudflared` às vezes estourava o tempo ao pedir o *quick tunnel* (`context deadline exceeded`), enquanto um `POST` manual à API demorava ~14s e funcionava. Contorno:
+
+```bash
+# 1) Cria o túnel rápido e grava hostname + credenciais
+RESP=$(curl -4 -sS --connect-timeout 30 --max-time 90 \
+  -X POST https://api.trycloudflare.com/tunnel \
+  -H 'Content-Type: application/json' -d '{}')
+
+echo "$RESP" | python3 -c '
+import json, sys
+r = json.load(sys.stdin)["result"]
+print("HOSTNAME=" + r["hostname"])
+creds = {
+  "AccountTag": r["account_tag"],
+  "TunnelSecret": r["secret"],
+  "TunnelID": r["id"],
+  "TunnelName": r["name"],
+}
+open("/tmp/cf-creds.json", "w").write(json.dumps(creds))
+open("/tmp/cf-tunnel-id.txt", "w").write(r["id"])
+open("/tmp/cf-hostname.txt", "w").write(r["hostname"])
+'
+
+cat /tmp/cf-hostname.txt
+
+# 2) Sobe o túnel (troque a porta: 3001 = API, 8081 = Metro)
+./cloudflared tunnel \
+  --credentials-file /tmp/cf-creds.json \
+  --url http://localhost:3001 \
+  --no-autoupdate \
+  run "$(cat /tmp/cf-tunnel-id.txt)"
+```
+
+Use o `HOSTNAME` impresso como `EXPO_PUBLIC_API_URL` (API) ou `EXPO_PACKAGER_PROXY_URL` (Metro). Repita o processo em outro diretório/arquivos se precisar dos dois túneis ao mesmo tempo.
+
+#### Segurança e encerramento
+
+- A API **não tem autenticação de produção**. O túnel rápido expõe os endpoints na internet enquanto estiver ligado — use só para teste acadêmico, **sem dados reais**.
+- Encerre o(s) processo(s) `cloudflared` (Ctrl+C) ao terminar a demonstração.
+- Não faça commit de URL viva, de `moblie/.env` nem de arquivos de credenciais (`cf-creds.json`).
+- Avisos no log do tipo timeout de DNS IPv6/`Failed to refresh DNS local resolver` podem aparecer; se `curl` na URL HTTPS ainda responder 200, o túnel segue utilizável.
+
 ## 3. Dashboard SOS
 
 Com a API rodando, abra `dashboard/index.html` em um navegador (ou rode `python -m http.server 8000` dentro de `dashboard` e abra `http://localhost:8000`). O painel usa `http://localhost:3001/alertas` por padrão ou o parâmetro `?api=http://HOST:PORTA`. Atualização automática por polling; conta, local e horário do SOS fictício, com atualização de status.
